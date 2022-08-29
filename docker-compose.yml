@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  postgres:
+    container_name: oipie
+    image: postgres:14.5
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: oipie
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+      POSTGRES_TEST_DATABASE: oipie_tests
+    networks:
+      - postgres
+    restart: unless-stopped
+networks:
+  postgres:
+    driver: bridge
+volumes:
+  postgres:

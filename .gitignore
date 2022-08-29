@@ -3,3 +3,10 @@ venv
 
 # Pycache
 __pycache__
+.pytest_cache
+
+# Environment
+.env
+
+# Instance
+instance
