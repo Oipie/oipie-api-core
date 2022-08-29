@@ -5,6 +5,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from src.config.db import DATABASE_CONFIG
+# pylint: disable=import-outside-toplevel
 
 db = SQLAlchemy()
 
@@ -33,3 +34,5 @@ def create_app():
     except OSError:
         pass
     return app
+
+# pylint: enable=import-outside-toplevel
