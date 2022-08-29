@@ -2,7 +2,7 @@
 Main entrypoint
 """
 from flask import Flask
-from .api.health.healthcontroller import health_bp
+from .api.health.health_controller import health_bp
 
 app = Flask(__name__)
 
