@@ -10,17 +10,10 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
       POSTGRES_TEST_DATABASE: oipie_tests
-    networks:
-      - postgres
     restart: unless-stopped
   web:
     build: .
     ports:
       - "8000:8000"
     environment:
-      DATABASE_HOST: oipie
-networks:
-  postgres:
-    driver: bridge
-volumes:
-  postgres:
+      DATABASE_HOST: postgres
