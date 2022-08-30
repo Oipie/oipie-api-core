@@ -12,7 +12,6 @@ DATABASE_CONFIG = {
     "database_name": os.environ.get('DATABASE_NAME', 'oipie'),
 }
 
-print(os.environ.get('DATABASE_URL').replace('postgres', 'postgresql'))
 
 DATABASE_URL_CONECTION = os.environ.get(
     'DATABASE_URL'.replace('postgres', 'postgresql'),
