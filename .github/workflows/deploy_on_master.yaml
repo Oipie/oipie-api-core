@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install heroku
+        run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
       - name: Login Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
