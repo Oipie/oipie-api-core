@@ -16,3 +16,5 @@ jobs:
         run: heroku container:login
       - name: Build and push to Heroku
         run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
