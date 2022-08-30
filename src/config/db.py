@@ -14,6 +14,6 @@ DATABASE_CONFIG = {
 
 
 DATABASE_URL_CONECTION = os.environ.get(
-    'DATABASE_URL'.replace('postgres', 'postgresql'),
+    'DATABASE_URL',
     "postgresql://{host}:{port}/{database_name}?user={username}&password={password}"
-    .format(**DATABASE_CONFIG))
+    .format(**DATABASE_CONFIG)).replace('postgres://', 'postgresql://')
