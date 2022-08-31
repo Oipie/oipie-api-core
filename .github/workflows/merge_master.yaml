@@ -1,0 +1,26 @@
+name: Master merged
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  tests:
+    name: Run tests and linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflows/branch_push
+  deploy:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install heroku
+        run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - name: Login Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Build and push to Heroku
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
