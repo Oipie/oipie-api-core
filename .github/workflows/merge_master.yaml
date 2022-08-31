@@ -2,7 +2,7 @@ name: Deploys to master
 on:
   push:
     branches:
-      - "dev"
+      - "master"
 jobs:
   tests:
     uses: ./.github/workflows/branch_push.yaml
