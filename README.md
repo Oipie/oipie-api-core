@@ -75,7 +75,7 @@ In order to be aligned with the Oipie DevOps Team, this repository is organized 
     * api: code all controllers and DTO
     * config: configuration files
     * core: all modules on the application. 
-2. tests - E2E tests
+    * tests: E2E tests and fixtures 
 3. .github - Github actions integration for CI/CD
 
 ## 🏘 How is the code organized?
