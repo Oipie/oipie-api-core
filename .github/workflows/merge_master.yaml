@@ -8,6 +8,7 @@ jobs:
     name: Run tests and linter
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/workflows/branch_push
   deploy:
     runs-on: ubuntu-latest
