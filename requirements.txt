@@ -23,6 +23,9 @@ psycopg2-binary==2.9.3
 py==1.11.0
 pycodestyle==2.9.1
 pylint==2.15.0
+pylint-flask==0.6
+pylint-flask-sqlalchemy==0.2.0
+pylint-plugin-utils==0.7
 pyparsing==3.0.9
 pytest==7.1.2
 python-dotenv==0.20.0
