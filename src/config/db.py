@@ -11,3 +11,9 @@ DATABASE_CONFIG = {
     "password":  os.environ.get('DATABASE_PASSWORD', 'password'),
     "database_name": os.environ.get('DATABASE_NAME', 'oipie'),
 }
+
+
+DATABASE_URL_CONECTION = os.environ.get(
+    'DATABASE_URL',
+    "postgresql://{host}:{port}/{database_name}?user={username}&password={password}"
+    .format(**DATABASE_CONFIG)).replace('postgres://', 'postgresql://')

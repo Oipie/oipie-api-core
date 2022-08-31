@@ -3,8 +3,11 @@ on:
   push:
     branches:
       - "*"
+      - "!master"
+  workflow_call:
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     container: "python:3.10-slim"
     services:
