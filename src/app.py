@@ -28,6 +28,9 @@ def create_app():
     from .api.health.health_controller import health_bp
     app.register_blueprint(health_bp)
 
+    from .api.shared.handle_http_exception import errors_bp
+    app.register_blueprint(errors_bp)
+
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
