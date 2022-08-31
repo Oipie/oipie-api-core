@@ -1,4 +1,4 @@
-name: Master merged
+name: Deploys to master
 on:
   push:
     branches:
