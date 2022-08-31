@@ -2,7 +2,7 @@ name: Deploys to master
 on:
   push:
     branches:
-      - "master"
+      - "dev"
 jobs:
   tests:
     name: Run tests and linter
