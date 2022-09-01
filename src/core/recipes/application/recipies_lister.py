@@ -2,7 +2,7 @@
 Recipies Lister use case
 """
 from src.core.recipes.domain.recipe import Recipe
-from src.core.recipes.infrastructure.recipes_repository_sqlalchemy import RecipesRepositorySQLAlchemy
+from src.core.recipes.domain.recipes_repository import RecipesRepository
 
 
 class RecipiesLister:
@@ -10,8 +10,8 @@ class RecipiesLister:
     This class returns a list of recipies
     """
 
-    def __init__(self):
-        self.recipes_repository = RecipesRepositorySQLAlchemy()
+    def __init__(self, recipes_repository: RecipesRepository):
+        self.recipes_repository = recipes_repository
 
     def execute(self) -> list[Recipe]:
         """
