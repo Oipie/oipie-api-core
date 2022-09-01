@@ -2,23 +2,25 @@
 Recipe Database Model
 """
 import uuid
+from sqlalchemy import Column, String,  Integer
 from sqlalchemy.dialects.postgresql import UUID
-from src.app import db
+from src.config.database import Models
 from src.core.recipes.domain.recipe import Recipe
 
 
-class RecipeModel(db.Model):
+class RecipeModel(Models):
     """
     This class represents a Recipe in database model
     """
     __tablename__ = 'recipes'
 
-    id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
-    name = db.Column(db.String, nullable=False)
-    favourite_amount = db.Column(db.Integer, default=0, nullable=False)
-    preparation_time = db.Column(db.Integer, default=0, nullable=False)
-    cover = db.Column(db.String)
+    id = Column(Integer, primary_key=True)
+    uuid = Column(UUID(as_uuid=True),
+                  default=uuid.uuid4, nullable=False)
+    name = Column(String, nullable=False)
+    favourite_amount = Column(Integer, default=0, nullable=False)
+    preparation_time = Column(Integer, default=0, nullable=False)
+    cover = Column(String)
 
     @staticmethod
     def from_domain_object(recipe: Recipe):
