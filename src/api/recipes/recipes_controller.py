@@ -3,6 +3,7 @@ This module serves the purpose of perform several actions on the recipes
 """
 
 from flask import Blueprint, request
+from src.api.shared.dtos.paginated_response_dto import PaginatedResponseDTO
 from src.core.recipes.application.recipies_lister import RecipiesLister
 from src.core.recipes.infrastructure.recipes_repository_sqlalchemy \
     import RecipesRepositorySQLAlchemy
@@ -22,9 +23,4 @@ def index():
 
     recipies, total_recipies = recipies_lister.execute(offset, limit)
 
-    return {
-        'items': list(map(lambda recipie: recipie.serialize(), recipies)),
-        'meta': {
-            'totalItems': total_recipies
-        }
-    }
+    return PaginatedResponseDTO.serialize(list(map(lambda recipie: recipie.serialize(), recipies)), total_recipies)
