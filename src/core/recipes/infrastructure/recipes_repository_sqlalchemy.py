@@ -14,9 +14,9 @@ class RecipesRepositorySQLAlchemy(RecipesRepository):
     def __init__(self, session):
         self.session = session
 
-    def find_all(self) -> list[Recipe]:
+    def find_all(self, offset: int, limit: int) -> list[Recipe]:
         """
         Gets all recipes from database and returns domain objects
         """
         return list(map(lambda recipie: recipie.to_domain_object(),
-                        self.session.query(RecipeModel).all()))
+                        self.session.query(RecipeModel).limit(limit).offset(offset).all()))

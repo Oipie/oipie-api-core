@@ -10,7 +10,7 @@ class RecipesRepository(abc.ABC):
     Domain recipes repository interface
     """
     @abc.abstractmethod
-    def find_all(self) -> list[Recipe]:
+    def find_all(self, offset: int, limit: int) -> list[Recipe]:
         """
             Find all recipes on database.
         """
