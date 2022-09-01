@@ -1,21 +1,19 @@
 """
 Recipe module
 """
-from typing import TypedDict
-from typing_extensions import NotRequired
+from typing import Optional, TypedDict
 
 
 class RecipeAttributes(TypedDict):
     """
     Dictionary that represents a recipe attributes
     """
-    id_: int
+    id_: Optional[int]
     uuid: str
     name: str
-    favourite: NotRequired[bool]
     favourite_amount: int
     preparation_time: int
-    cover: str
+    cover: Optional[str]
 
 
 class Recipe:
@@ -27,7 +25,6 @@ class Recipe:
         self.id_ = recipe_attributes.get('id_')
         self.uuid = recipe_attributes.get('uuid')
         self.name = recipe_attributes.get('name')
-        self.favourite = recipe_attributes.get('favourite', False)
         self.favourite_amount = recipe_attributes.get('favourite_amount')
         self.preparation_time = recipe_attributes.get('preparation_time')
         self.cover = recipe_attributes.get('cover')
@@ -36,12 +33,13 @@ class Recipe:
         """
         This method returns a recipe parsed to dict object
         """
-        return {
+        recipe_serialized: RecipeAttributes = {
             'id_': self.id_,
             'uuid': self.uuid,
             'name': self.name,
-            'favourite': self.favourite,
             'favourite_amount': self.favourite_amount,
             'preparation_time': self.preparation_time,
             'cover': self.cover
         }
+
+        return recipe_serialized

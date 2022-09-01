@@ -1,7 +1,8 @@
 """
 Tests to check Recipe class
 """
-from tests.fixtures.recipe_fixture import PANCAKE, STRAWBERRY_SMOOTHIE
+
+from src.tests.fixtures.recipe_fixture import PANCAKE, STRAWBERRY_SMOOTHIE
 from .recipe import Recipe, RecipeAttributes
 
 

@@ -48,7 +48,7 @@ ignore=
 # ignore-list. The regex matches against paths and can be in Posix or Windows
 # format. Because '\' represents the directory delimiter on Windows systems, it
 # can't be used as an escape character.
-ignore-paths=src/config/migrations/versions
+ignore-paths=^src/config/.*$
 
 # Files or directories matching the regular expression patterns are skipped.
 # The regex matches against base names, not paths. The default value ignores
@@ -604,7 +604,7 @@ no-docstring-rgx=^_
 # List of decorators that produce properties, such as abc.abstractproperty. Add
 # to this list to register other decorators that produce valid properties.
 # These decorators are taken in consideration only for invalid-name.
-property-classes=abc.abstractproperty
+property-classes=abc.abstractproperty,abc.ABC,abc.abstractmethod
 
 # Regular expression matching correct type variable names. If left empty, type
 # variable names will be checked with the set naming style.

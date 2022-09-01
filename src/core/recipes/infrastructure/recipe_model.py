@@ -11,12 +11,14 @@ class RecipeModel(db.Model):
     """
     This class represents a Recipe in database model
     """
+    __tablename__ = 'recipes'
+
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
     name = db.Column(db.String, nullable=False)
     favourite_amount = db.Column(db.Integer, default=0, nullable=False)
     preparation_time = db.Column(db.Integer, default=0, nullable=False)
-    cover = db.Column(db.Integer)
+    cover = db.Column(db.String)
 
     @staticmethod
     def from_domain_object(recipe: Recipe):
