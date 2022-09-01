@@ -20,4 +20,11 @@ def index():
     offset = request.args.get('offset', default=0, type=int)
     limit = request.args.get('limit', default=10, type=int)
 
-    return list(map(lambda recipie: recipie.serialize(), recipies_lister.execute(offset, limit)))
+    recipies, total_recipies = recipies_lister.execute(offset, limit)
+
+    return {
+        'items': list(map(lambda recipie: recipie.serialize(), recipies)),
+        'meta': {
+            'totalItems': total_recipies
+        }
+    }
