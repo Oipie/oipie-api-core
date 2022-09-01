@@ -3,13 +3,13 @@ This module serves the purpose of perform several actions on the recipes
 """
 
 from flask import Blueprint
-from src.core.recipes.application.recipies_lister import RecipiesLister
+from src.core.recipes.application.recipes_lister import RecipesLister
 from src.core.recipes.infrastructure.recipes_repository_sqlalchemy \
     import RecipesRepositorySQLAlchemy
 from src.app import db
 
 recipes_bp = Blueprint('recipes_bp', __name__)
-recipies_lister = RecipiesLister(RecipesRepositorySQLAlchemy(db.session))
+recipies_lister = RecipesLister(RecipesRepositorySQLAlchemy(db.session))
 
 
 @recipes_bp.route("/recipes", methods=['GET'])

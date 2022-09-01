@@ -5,7 +5,7 @@ from src.core.recipes.domain.recipe import Recipe
 from src.core.recipes.domain.recipes_repository import RecipesRepository
 
 
-class RecipiesLister:
+class RecipesLister:
     """
     This class returns a list of recipies
     """
