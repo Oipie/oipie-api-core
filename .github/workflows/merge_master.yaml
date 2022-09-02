@@ -1,8 +1,8 @@
 name: Deploys to master
 on:
   push:
-    branches:
-      - "master"
+    # branches:
+      # - "master"
 jobs:
   tests:
     uses: ./.github/workflows/branch_push.yaml
@@ -21,3 +21,5 @@ jobs:
         run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Run migrations
+        run: heroku run flask db upgrade -a ${{ secrets.HEROKU_APP_NAME }}
