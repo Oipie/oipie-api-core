@@ -1,2 +1,8 @@
+# By default backend developeres do review
 * @Oipie/backend
+
+# CICD and infrastructure files
 .github @Oipie/sre
+
+# for renovatebot to work
+requirements.txt @github-actions
