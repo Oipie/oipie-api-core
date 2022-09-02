@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - "master"
+      - "main"
 jobs:
   tests:
     uses: ./.github/workflows/branch_push.yaml
