@@ -16,7 +16,7 @@ class RecipesRepositorySQLAlchemy(RecipesRepository):
     model = RecipeModel
 
     def __init__(self, session_factory: Callable[..., AbstractContextManager[Session]]):
-        self.session = session_factory()
+        self.session = session_factory
 
     def find_all(self) -> list[Recipe]:
         """

@@ -25,11 +25,17 @@ You are now good ready to go!! 👯
 
 ### Dependency management
 
-We are using virtual environments to manage our dependencies separated from other Python projects. Dependencies are managed using pip3. Remember to freeze all dependencies on the `requirements.txt` after installing a new dependency. 
+We are using virtual environments to manage our dependencies separated from other Python projects. Dependencies are managed using pip3. Remember to freeze all dependencies on the `requirements.txt` after installing a new dependency.
 
-```bash 
+```bash
 pip freeze > requirements.txt
 ```
+
+## Dependency Injection
+
+Dependency injection have been implemented using `dependency-injection` python library. Following the documentation and the [tutorial](https://python-dependency-injector.ets-labs.org/examples/fastapi-sqlalchemy.html).
+
+To use dependecy injection have to take into account that providers have to be defined on the `Container.py` defined into `src/confg/`. Actual configuration of the dependency injection resolver is only set up to resolve dependencies inside the `src/api/`.
 
 ### Docker
 
@@ -55,7 +61,6 @@ We use [Heroku](https://www.heroku.com/) to publish this API so it can be consum
 
 For now we just have a main environment that you can access [through this URL](https://oipie.herokuapp.com/)
 
-
 ### Project management
 
 - [Oipie board](https://trello.com/b/727W8t27/development)
@@ -72,11 +77,11 @@ For now we just have a main environment that you can access [through this URL](h
 In order to be aligned with the Oipie DevOps Team, this repository is organized with the following folder structure:
 
 1. src - contains all source code of the application.
-    * api: code all controllers and DTO
-    * config: configuration files
-    * core: all modules on the application. 
-    * tests: E2E tests and fixtures 
-3. .github - Github actions integration for CI/CD
+   - api: code all controllers and DTO
+   - config: configuration files
+   - core: all modules on the application.
+   - tests: E2E tests and fixtures
+2. .github - Github actions integration for CI/CD
 
 ## 🏘 How is the code organized?
 
@@ -92,12 +97,11 @@ All the main code of the application lives under `src`
 
 ### CI/CD
 
-Continous integration execute pylint and all tests on each push to any branch. 
+Continous integration execute pylint and all tests on each push to any branch.
 
-Continous deployment is executed only on master brach after all previous actions have succed. 
-
+Continous deployment is executed only on master brach after all previous actions have succed.
 
 ## 📲 Contact
 
-The project was mainly developed by [Jaume Moreno](morenocantoj@gmail.com) and [Diego Machín](diego@acidtango.com) 
+The project was mainly developed by [Jaume Moreno](morenocantoj@gmail.com) and [Diego Machín](diego@acidtango.com)
 for [Acid Tango](https://acidtango.com/)

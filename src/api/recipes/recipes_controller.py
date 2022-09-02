@@ -6,7 +6,6 @@ from dependency_injector.wiring import Provide, inject
 from flask import Blueprint
 from src.config.container import Container
 from src.core.recipes.application.recipes_lister import RecipesLister
-from src.core.recipes.domain.recipes_repository import RecipesRepository
 from src.core.recipes.infrastructure.recipes_repository_sqlalchemy \
     import RecipesRepositorySQLAlchemy
 
@@ -23,7 +22,5 @@ def index(
     This route returns a 200 OK returning all recipes existing in database
     """
 
-    print(recipes_repository)
-    recipies_lister = RecipesLister(
-        RecipesRepositorySQLAlchemy(Container.db.provided.session))
-    return list(map(lambda recipie: recipie.serialize(), recipies_lister.execute()))
+    lister = RecipesLister(recipes_repository)
+    return list(map(lambda recipie: recipie.serialize(), lister.execute()))

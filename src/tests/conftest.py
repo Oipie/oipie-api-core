@@ -7,7 +7,7 @@ from src.app import create_app
 
 
 @pytest.fixture()
-def create_test_app():
+def app():
     """
     This method returns an instance of an app for testing purposes
     """
@@ -16,7 +16,7 @@ def create_test_app():
         "TESTING": True,
     })
 
-    # other setup can go here
+    # mock data here
 
     yield app_factory
 
@@ -24,18 +24,18 @@ def create_test_app():
 
 
 @pytest.fixture()
-def client(create_test_app):
+def client(app):
     """
     This methods takes an app fixture and returns a Flask http client for testing purposes
     """
-    return create_test_app.test_client()
+    return app.test_client()
 
 
 @pytest.fixture()
-def runner(create_test_app):
+def runner(app):
     """
     This methods takes an app fixture and returns a Flask cli client for testing purposes
     """
-    return create_test_app.test_cli_runner()
+    return app.test_cli_runner()
 
 # pylint: enable=redefined-outer-name
