@@ -12,8 +12,12 @@ services:
       POSTGRES_TEST_DATABASE: oipie_tests
     restart: unless-stopped
   web:
-    build: .
+    build:
+      context: .
+      args:
+        PORT: 5005
     ports:
       - "8000:8000"
     environment:
       DATABASE_HOST: postgres
+      PORT: 5005
