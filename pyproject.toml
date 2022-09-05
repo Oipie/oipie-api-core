@@ -16,7 +16,7 @@ python = "^3.10"
 SQLAlchemy = "1.4.40"
 typing_extensions = "4.3.0"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 pylint = "2.15.0"
 pylint-flask = "0.6.0"
 pylint-flask-sqlalchemy = "0.2.0"
