@@ -1,9 +1,9 @@
 name: Run tests on any Push event
 on:
-  push:
+  pull_request:
     branches:
-      - "*"
-      - "!master"
+      - "master"
+      - "main"
   workflow_call:
 
 jobs:
