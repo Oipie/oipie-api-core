@@ -12,7 +12,7 @@ RUN pip install poetry==1.1.15
 ENV FLASK_APP=src/app.py
 
 RUN poetry config virtualenvs.create false
-RUN poetry install
+RUN poetry install --only main
 
 COPY . .
 RUN chmod +x ./scripts/entrypoint.sh
