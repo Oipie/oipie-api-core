@@ -7,6 +7,8 @@ WORKDIR /python-docker
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
+ENV FLASK_APP=src/app.py
+
 COPY . .
-EXPOSE 8000
-CMD [ "python3", "-m" , "gunicorn", "-b", "0.0.0.0:8000","src:create_app()"]
+RUN chmod +x ./scripts/entrypoint.sh
+ENTRYPOINT [ "./scripts/entrypoint.sh" ]

@@ -16,6 +16,8 @@ git clone git@github.com:Oipie/oipie-api-core.git
 cd oipie-api-core
 pip install -r requirements.txt
 docker-compose up --build postgres # starts DDBB
+flask db init # creates database if not exists
+flask db upgrade # runs all database migrations
 flask --app "src/app.py" run # starts the server in development mode
 ```
 
@@ -73,7 +75,7 @@ In order to be aligned with the Oipie DevOps Team, this repository is organized 
     * api: code all controllers and DTO
     * config: configuration files
     * core: all modules on the application. 
-2. tests - E2E tests
+    * tests: E2E tests and fixtures 
 3. .github - Github actions integration for CI/CD
 
 ## 🏘 How is the code organized?
