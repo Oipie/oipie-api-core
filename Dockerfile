@@ -4,10 +4,15 @@ FROM python:3.10-slim
 
 WORKDIR /python-docker
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+
+RUN pip install poetry==1.1.15
 
 ENV FLASK_APP=src/app.py
+
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
 COPY . .
 RUN chmod +x ./scripts/entrypoint.sh
