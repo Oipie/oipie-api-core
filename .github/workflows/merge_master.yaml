@@ -5,7 +5,7 @@ on:
       - "master"
 jobs:
   tests:
-    uses: ./.github/workflows/python.yaml
+    uses: ./.github/workflows/branch_push.yaml
   deploy:
     runs-on: ubuntu-latest
     needs: tests

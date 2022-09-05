@@ -4,9 +4,6 @@ on:
     branches:
       - "*"
       - "!master"
-  pull_request:
-    branches:
-      - "*"
   workflow_call:
 
 jobs:
@@ -33,18 +30,14 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v3
-      - uses: abatilo/actions-poetry@v2.1.5
-        with:
-          poetry-version: 1.2.0
-      - uses: actions/cache@v3
-        with:
-          path: '**/.venv'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
-        run: poetry install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pylint
       - name: Analysing the code with pylint
-        run: poetry run pylint ./src/**/*.py
+        run: pylint ./src/**/*.py
       - name: Run tests
-        run: poetry run pytest
+        run: pytest
         env:
           DATABASE_HOST: postgres
