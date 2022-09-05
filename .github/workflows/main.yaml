@@ -1,8 +1,8 @@
-name: Deploys to master
+name: Deploys to main
 on:
   push:
-    # branches:
-      # - "master"
+    branches:
+      - "main"
 jobs:
   deploy:
     runs-on: ubuntu-latest
