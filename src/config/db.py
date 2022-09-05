@@ -2,6 +2,7 @@
     Database configuration
 """
 import os
+from typing import Optional
 
 
 DATABASE_CONFIG = {
@@ -13,7 +14,15 @@ DATABASE_CONFIG = {
 }
 
 
-DATABASE_URL_CONECTION = os.environ.get(
-    'DATABASE_URL',
-    "postgresql://{host}:{port}/{database_name}?user={username}&password={password}"
-    .format(**DATABASE_CONFIG)).replace('postgres://', 'postgresql://')
+def database_url_connection(override_config: Optional[dict] = None):
+    """
+    Builds PostgreSQL database connection
+    """
+    database_config = {**DATABASE_CONFIG, **(override_config or {})}
+
+    return os.environ.get(
+        'DATABASE_URL',
+        (f"postgresql://{database_config['host']}:{database_config['port']}"
+         f"/{database_config['database_name']}"
+         f"?user={database_config['username']}&password={database_config['password']}")
+        .replace('postgres://', 'postgresql://'))
