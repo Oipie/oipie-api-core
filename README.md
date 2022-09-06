@@ -51,7 +51,6 @@ For starting the full application you can run the following command
 docker-compose up [-d] --build
 ```
 
-
 #### Why do we have more than just a simple Dockerfile?
 
 Since we are using Heroku containers (SENKIU Heroku) as our deploying platform, we need to have two different Dockerfiles regarding Heroku container images:
@@ -59,7 +58,6 @@ Since we are using Heroku containers (SENKIU Heroku) as our deploying platform, 
 - `Dockerfile.release` --> Executes pre-deploy scripts. In this case we just launch migrations
 
 As soon as we stop using Heroku these files will be removed **PERMANENTLY** from the project
-
 
 #### :warning: Important warning
 
