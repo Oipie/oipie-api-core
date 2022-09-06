@@ -22,5 +22,12 @@ class RecipesRepositorySQLAlchemy(RecipesRepository):
         query = self.session.query(RecipeModel)
         count: int = query.count()
 
-        return (list(map(lambda recipie: recipie.to_domain_object(),
-                         query.limit(limit).offset(offset).all())), count)
+        return (
+            list(
+                map(
+                    lambda recipie: recipie.to_domain_object(),
+                    query.limit(limit).offset(offset).all(),
+                )
+            ),
+            count,
+        )

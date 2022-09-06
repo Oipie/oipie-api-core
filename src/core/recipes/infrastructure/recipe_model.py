@@ -11,7 +11,8 @@ class RecipeModel(db.Model):
     """
     This class represents a Recipe in database model
     """
-    __tablename__ = 'recipes'
+
+    __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
@@ -25,19 +26,26 @@ class RecipeModel(db.Model):
         """
         Transforms to Recipe model
         """
-        return RecipeModel(id=recipe.id_, uuid=recipe.uuid, name=recipe.uuid,
-                           favourite_amount=recipe.favourite_amount,
-                           preparation_time=recipe.preparation_time, cover=recipe.preparation_time)
+        return RecipeModel(
+            id=recipe.id_,
+            uuid=recipe.uuid,
+            name=recipe.uuid,
+            favourite_amount=recipe.favourite_amount,
+            preparation_time=recipe.preparation_time,
+            cover=recipe.preparation_time,
+        )
 
     def to_domain_object(self) -> Recipe:
         """
         Transforms Recipe database model to a domain object
         """
-        return Recipe({
-            'id_': self.id,
-            'uuid': self.uuid,
-            'name': self.name,
-            'favourite_amount': self.favourite_amount,
-            'preparation_time': self.preparation_time,
-            'cover': self.cover,
-        })
+        return Recipe(
+            {
+                "id_": self.id,
+                "uuid": self.uuid,
+                "name": self.name,
+                "favourite_amount": self.favourite_amount,
+                "preparation_time": self.preparation_time,
+                "cover": self.cover,
+            }
+        )
