@@ -7,6 +7,7 @@ Oipie API repository implements the API that will be consumed by the mobile apps
 Prerequisites:
 
 - [Python](https://www.python.org/downloads/): 3.10
+- [Poetry](https://python-poetry.org/docs/#installation): 1.2.0
 - [Docker](https://docs.docker.com/get-docker/)
 
 Now:
@@ -14,8 +15,8 @@ Now:
 ```bash
 git clone git@github.com:Oipie/oipie-api-core.git
 cd oipie-api-core
-pip install -r requirements.txt
-docker-compose up --build postgres # starts DDBB
+poetry install
+docker-compose up [-d] --build postgres # starts DDBB
 flask db init # creates database if not exists
 flask db upgrade # runs all database migrations
 flask --app "src/app.py" run # starts the server in development mode
@@ -25,10 +26,16 @@ You are now good ready to go!! 👯
 
 ### Dependency management
 
-We are using virtual environments to manage our dependencies separated from other Python projects. Dependencies are managed using pip3. Remember to freeze all dependencies on the `requirements.txt` after installing a new dependency. 
+We are using virtual environments to manage our dependencies separated from other Python projects. Dependencies are managed using poetry.
 
-```bash 
-pip freeze > requirements.txt
+```bash
+poetry add [--group dev] <package==version> # adds a new dependency
+```
+
+If no version is specified, the latest version will be installed with caret, but the caret should be removed. If that is the case, just regenerate lockfile.
+
+```bash
+poetry lock # regenerates lockfile
 ```
 
 ### Docker
@@ -41,9 +48,8 @@ We use Docker as a utility tool, mainly for running a Postgres, which is the Dat
 For starting the full application you can run the following command
 
 ```bash
-docker-compose up --build
+docker-compose up [-d] --build
 ```
-
 
 #### Why do we have more than just a simple Dockerfile?
 
@@ -52,7 +58,6 @@ Since we are using Heroku containers (SENKIU Heroku) as our deploying platform, 
 - `Dockerfile.release` --> Executes pre-deploy scripts. In this case we just launch migrations
 
 As soon as we stop using Heroku these files will be removed **PERMANENTLY** from the project
-
 
 #### :warning: Important warning
 
@@ -84,8 +89,8 @@ In order to be aligned with the Oipie DevOps Team, this repository is organized 
 1. src - contains all source code of the application.
     * api: code all controllers and DTO
     * config: configuration files
-    * core: all modules on the application. 
-    * tests: E2E tests and fixtures 
+    * core: all modules on the application.
+    * tests: E2E tests and fixtures
 3. .github - Github actions integration for CI/CD
 
 ## 🏘 How is the code organized?
@@ -102,12 +107,12 @@ All the main code of the application lives under `src`
 
 ### CI/CD
 
-Continous integration execute pylint and all tests on each push to any branch. 
+Continous integration execute pylint and all tests on each push to any branch.
 
-Continous deployment is executed only on master brach after all previous actions have succed. 
+Continous deployment is executed only on master brach after all previous actions have succed.
 
 
 ## 📲 Contact
 
-The project was mainly developed by [Jaume Moreno](morenocantoj@gmail.com) and [Diego Machín](diego@acidtango.com) 
+The project was mainly developed by [Jaume Moreno](morenocantoj@gmail.com) and [Diego Machín](diego@acidtango.com)
 for [Acid Tango](https://acidtango.com/)
