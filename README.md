@@ -29,7 +29,13 @@ You are now good ready to go!! 👯
 We are using virtual environments to manage our dependencies separated from other Python projects. Dependencies are managed using poetry.
 
 ```bash
-poetry add [--group dev] <package> # adds a new dependency
+poetry add [--group dev] <package==version> # adds a new dependency
+```
+
+If no version is specified, the latest version will be installed with caret, but the caret should be removed. If that is the case, just regenerate lockfile.
+
+```bash
+poetry lock # regenerates lockfile
 ```
 
 ### Docker
