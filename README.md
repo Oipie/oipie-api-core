@@ -29,7 +29,13 @@ You are now good ready to go!! 👯
 We are using virtual environments to manage our dependencies separated from other Python projects. Dependencies are managed using poetry.
 
 ```bash
-poetry add [--group dev] <package> # adds a new dependency
+poetry add [--group dev] <package==version> # adds a new dependency
+```
+
+If no version is specified, the latest version will be installed with caret, but the caret should be removed. If that is the case, just regenerate lockfile.
+
+```bash
+poetry lock # regenerates lockfile
 ```
 
 ### Docker
@@ -44,6 +50,14 @@ For starting the full application you can run the following command
 ```bash
 docker-compose up [-d] --build
 ```
+
+#### Why do we have more than just a simple Dockerfile?
+
+Since we are using Heroku containers (SENKIU Heroku) as our deploying platform, we need to have two different Dockerfiles regarding Heroku container images:
+- `Dockerfile.web` --> Starts gunicorn at specified port by Heroku
+- `Dockerfile.release` --> Executes pre-deploy scripts. In this case we just launch migrations
+
+As soon as we stop using Heroku these files will be removed **PERMANENTLY** from the project
 
 #### :warning: Important warning
 
