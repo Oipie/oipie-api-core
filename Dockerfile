@@ -7,7 +7,7 @@ WORKDIR /python-docker
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock
 
-RUN pip install poetry==1.1.15
+RUN pip install poetry==1.2.0
 
 ENV FLASK_APP=src/app.py
 
