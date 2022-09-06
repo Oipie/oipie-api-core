@@ -32,6 +32,8 @@ jobs:
         run: pip install poetry==1.1.15
       - name: Disable poetry virtualenv on GitHub Actions
         run: poetry config virtualenvs.create false --local
+      - name: Check dependencies
+        run: poetry lock --check
       - name: Install dependencies
         run: poetry install
       - name: Analysing the code with pylint
