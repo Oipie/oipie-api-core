@@ -44,6 +44,16 @@ For starting the full application you can run the following command
 docker-compose up --build
 ```
 
+
+#### Why do we have more than just a simple Dockerfile?
+
+Since we are using Heroku containers (SENKIU Heroku) as our deploying platform, we need to have two different Dockerfiles regarding Heroku container images:
+- `Dockerfile.web` --> Starts gunicorn at specified port by Heroku
+- `Dockerfile.release` --> Executes pre-deploy scripts. In this case we just launch migrations
+
+As soon as we stop using Heroku these files will be removed **PERMANENTLY** from the project
+
+
 #### :warning: Important warning
 
 If you're using a M1 chipset based computer, you may encounter some problems when interacting to `web` container. The main reason is because some `pip` dependencies regarding `SQLAlchemy`. This can be solved by exporting `DOCKER_DEFAULT_PLATFORM` variable to `linux/amd64`:
