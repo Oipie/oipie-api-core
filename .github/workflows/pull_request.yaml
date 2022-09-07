@@ -36,6 +36,8 @@ jobs:
         run: poetry lock --check
       - name: Install dependencies
         run: poetry install
+      - name: Check code format (PEP8)
+        run: black --check .
       - name: Analysing the code with pylint
         run: pylint ./src/**/*.py
       - name: Run tests
