@@ -76,6 +76,7 @@ For now we just have a main environment that you can access [through this URL](h
 - [Oipie board](https://trello.com/b/727W8t27/development)
 - [Github repo](https://github.com/Oipie/oipie-api-core)
 - [Figma](https://www.figma.com/file/baltSi1jqPjxE3lJRdl3gh/Oipiegma)
+- [IDE settings](/docs/ide-settings.md)
 
 ## 🛠 Which technologies are you using?
 

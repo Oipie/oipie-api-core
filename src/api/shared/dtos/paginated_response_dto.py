@@ -13,9 +13,4 @@ class PaginatedResponseDTO:
         """
         This method returns JSON-format dict within the object_list metadata
         """
-        return {
-            'items': object_list,
-            'meta': {
-                'totalItems': total_objects
-            }
-        }
+        return {"items": object_list, "meta": {"totalItems": total_objects}}
