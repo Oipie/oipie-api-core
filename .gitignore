@@ -12,5 +12,7 @@ __pycache__
 instance
 
 # IDE
-.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea
