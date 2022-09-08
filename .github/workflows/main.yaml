@@ -1,14 +1,11 @@
-name: Deploys to master
+name: Deploys to main
 on:
   push:
     branches:
-      - "master"
+      - "main"
 jobs:
-  tests:
-    uses: ./.github/workflows/branch_push.yaml
   deploy:
     runs-on: ubuntu-latest
-    needs: tests
     steps:
       - uses: actions/checkout@v3
       - name: Install heroku
@@ -18,6 +15,10 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
       - name: Build and push to Heroku
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} --recursive
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Relase last container to Heroku
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}

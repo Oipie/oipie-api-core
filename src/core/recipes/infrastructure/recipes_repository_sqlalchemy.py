@@ -1,6 +1,7 @@
 """
 ese
 """
+from typing import Tuple
 from contextlib import AbstractContextManager
 from typing import Callable
 from sqlalchemy.orm import Session
@@ -13,15 +14,25 @@ class RecipesRepositorySQLAlchemy(RecipesRepository):
     """
     This class manages database connection to query within recipes table
     """
+
     model = RecipeModel
 
     def __init__(self, session_factory: Callable[..., AbstractContextManager[Session]]):
         self.session = session_factory
 
-    def find_all(self) -> list[Recipe]:
+    def find_all(self, offset: int, limit: int) -> Tuple[list[Recipe], int]:
         """
         Gets all recipes from database and returns domain objects
         """
-        with self.session() as session:
-            return list(map(lambda recipie: recipie.to_domain_object(),
-                            session.query(self.model).all()))
+        query = self.session.query(RecipeModel)
+        count: int = query.count()
+
+        return (
+            list(
+                map(
+                    lambda recipie: recipie.to_domain_object(),
+                    query.limit(limit).offset(offset).all(),
+                )
+            ),
+            count,
+        )

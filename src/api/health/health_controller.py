@@ -10,18 +10,17 @@ from src.config.container import Container
 from src.config.database import Database
 
 
-health_bp = Blueprint('health_bp', __name__)
+health_bp = Blueprint("health_bp", __name__)
+
+health_bp = Blueprint("health_bp", __name__)
 
 
-@health_bp.route("/health", methods=['GET'])
+@health_bp.route("/health", methods=["GET"])
 @inject
-def health(
-    database: Database = Provide[Container.db]
-
-):
+def health(database: Database = Provide[Container.db]):
     """
     This routes returns a 204 No Content to check if API is alive
     """
     with database.session() as session:
-        session.execute(text('SELECT 1'))
-    return '', http.HTTPStatus.NO_CONTENT
+        session.execute(text("SELECT 1"))
+    return "", http.HTTPStatus.NO_CONTENT

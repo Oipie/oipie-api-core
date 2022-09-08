@@ -12,9 +12,11 @@ def app():
     This method returns an instance of an app for testing purposes
     """
     app_factory = create_app()
-    app_factory.config.update({
-        "TESTING": True,
-    })
+    app_factory.config.update(
+        {
+            "TESTING": True,
+        }
+    )
 
     # mock data here
 
@@ -37,5 +39,6 @@ def runner(app):
     This methods takes an app fixture and returns a Flask cli client for testing purposes
     """
     return app.test_cli_runner()
+
 
 # pylint: enable=redefined-outer-name
