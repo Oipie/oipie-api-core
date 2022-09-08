@@ -35,6 +35,18 @@ class Database:
         """
         Models.metadata.create_all(self._engine)
 
+    def get_engine(self):
+        """
+        Returns engine
+        """
+        return self._engine
+
+    def get_metadata(self):
+        """
+        Returns database metadata
+        """
+        return self._metadata
+
     @contextmanager
     def session(self) -> Callable[..., AbstractContextManager[Session]]:
         """

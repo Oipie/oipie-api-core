@@ -1,7 +1,5 @@
 from __future__ import with_statement
 from src.config.container import Container
-from src.core.recipes.infrastructure.recipe_model import RecipeModel
-from dependency_injector.wiring import Provide
 
 import logging
 from logging.config import fileConfig
@@ -13,8 +11,6 @@ from alembic import context
 container = Container()
 
 db_alpha = container.db()
-# db_alpha = Provide[Container.db()]
-print("DB FROM PROVIDE", db_alpha._engine.url)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -32,14 +28,9 @@ logger = logging.getLogger("alembic.env")
 
 config.set_main_option(
     "sqlalchemy.url",
-    str(db_alpha._engine.url).replace("%", "%%"),
+    str(db_alpha.get_engine().url).replace("%", "%%"),
 )
-target_metadata = db_alpha._metadata
-# config.set_main_option(
-#     "sqlalchemy.url",
-#     str(current_app.extensions["migrate"].db.get_engine().url).replace("%", "%%"),
-# )
-# target_metadata = current_app.extensions["migrate"].db.metadata
+target_metadata = db_alpha.get_metadata()
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -84,8 +75,7 @@ def run_migrations_online():
                 directives[:] = []
                 logger.info("No changes in schema detected.")
 
-    connectable = db_alpha._engine
-    # connectable = current_app.extensions["migrate"].db.get_engine()
+    connectable = db_alpha.get_engine()
 
     with connectable.connect() as connection:
         context.configure(
