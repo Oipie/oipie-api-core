@@ -13,3 +13,4 @@ instance
 
 # IDE
 .vscode
+.idea
