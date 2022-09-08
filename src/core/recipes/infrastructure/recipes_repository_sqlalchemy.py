@@ -1,7 +1,7 @@
 """
-ese
+SQLAlchemy repository for Recipes
 """
-from typing import Tuple, Callable
+from typing import Callable
 from contextlib import AbstractContextManager
 from sqlalchemy.orm import Session
 from src.core.recipes.domain.recipes_repository import RecipesRepository
@@ -19,7 +19,7 @@ class RecipesRepositorySQLAlchemy(RecipesRepository):
     def __init__(self, session_factory: Callable[..., AbstractContextManager[Session]]):
         self.session = session_factory
 
-    def find_all(self, offset: int, limit: int) -> Tuple[list[Recipe], int]:
+    def find_all(self, offset: int, limit: int) -> tuple[list[Recipe], int]:
         """
         Gets all recipes from database and returns domain objects
         """

@@ -13,8 +13,8 @@ class RecipesRepositoryFake(RecipesRepository):
     def __init__(self, recipes):
         self.recipes = recipes
 
-    def find_all(self) -> list[Recipe]:
+    def find_all(self, offset: int, limit: int) -> tuple[list[Recipe], int]:
         """
         Gets all recipes from database and returns domain objects
         """
-        return list(self.recipes)
+        return list(self.recipes)[offset : (offset + limit)], len(self.recipes)

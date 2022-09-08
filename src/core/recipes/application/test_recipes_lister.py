@@ -15,8 +15,10 @@ def test_serialize_is_ok():
     recipe_repository = RecipesRepositoryFake(recipes)
     recipe_lister = RecipesLister(recipe_repository)
 
-    result = recipe_lister.execute()
+    recipes, total_recipes = recipe_lister.execute(offset=0, limit=10)
 
-    assert len(result) == 2
-    assert result[0].name == PANCAKE.get('name')
-    assert result[1].name == STRAWBERRY_SMOOTHIE.get('name')
+    assert total_recipes == 2
+    print("RECIPES", recipes)
+    assert len(recipes) == 2
+    assert recipes[0].name == PANCAKE.get("name")
+    assert recipes[1].name == STRAWBERRY_SMOOTHIE.get("name")
