@@ -23,7 +23,6 @@ psycopg2-binary = "2.9.3"
 python = "3.10.6"
 SQLAlchemy = "1.4.40"
 typing_extensions = "4.3.0"
-six = "1.16.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "22.8.0"
