@@ -1,4 +1,3 @@
-
 """
     Define the database first configuration
 """
@@ -7,7 +6,7 @@ from typing import Callable
 import logging
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, orm
+from sqlalchemy import create_engine, orm, MetaData
 from src.config.db import DATABASE_URL_CONECTION
 
 Models = declarative_base()
@@ -16,11 +15,12 @@ logger = logging.getLogger(__name__)
 
 class Database:
     """
-        Includes all methods of SqlAlquemy data implementation
+    Includes all methods of SqlAlquemy data implementation
     """
 
     def __init__(self):
-        self._engine = create_engine(DATABASE_URL_CONECTION, echo=True)
+        self._engine = create_engine(DATABASE_URL_CONECTION, echo=False)
+        self._metadata = MetaData(bind=self._engine)
         self._session_factory = orm.scoped_session(
             orm.sessionmaker(
                 autocommit=False,
@@ -31,14 +31,14 @@ class Database:
 
     def create_database(self):
         """
-            Creates all tables if not exists
+        Creates all tables if not exists
         """
         Models.metadata.create_all(self._engine)
 
     @contextmanager
     def session(self) -> Callable[..., AbstractContextManager[Session]]:
         """
-            Allow to access the database session
+        Allow to access the database session
         """
         session: Session = self._session_factory()
         try:

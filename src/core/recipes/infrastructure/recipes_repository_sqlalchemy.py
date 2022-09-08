@@ -1,9 +1,8 @@
 """
 ese
 """
-from typing import Tuple
+from typing import Tuple, Callable
 from contextlib import AbstractContextManager
-from typing import Callable
 from sqlalchemy.orm import Session
 from src.core.recipes.domain.recipes_repository import RecipesRepository
 from src.core.recipes.infrastructure.recipe_model import RecipeModel
@@ -24,15 +23,15 @@ class RecipesRepositorySQLAlchemy(RecipesRepository):
         """
         Gets all recipes from database and returns domain objects
         """
-        query = self.session.query(RecipeModel)
-        count: int = query.count()
-
-        return (
-            list(
-                map(
-                    lambda recipie: recipie.to_domain_object(),
-                    query.limit(limit).offset(offset).all(),
-                )
-            ),
-            count,
-        )
+        with self.session() as session:
+            query = session.query(RecipeModel)
+            count: int = query.count()
+            return (
+                list(
+                    map(
+                        lambda recipie: recipie.to_domain_object(),
+                        query.limit(limit).offset(offset).all(),
+                    )
+                ),
+                count,
+            )
