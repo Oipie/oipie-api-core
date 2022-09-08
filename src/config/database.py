@@ -1,8 +1,7 @@
 """
     Define the database first configuration
 """
-from contextlib import contextmanager, AbstractContextManager
-from typing import Callable
+from contextlib import contextmanager
 import logging
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
@@ -48,7 +47,7 @@ class Database:
         return self._metadata
 
     @contextmanager
-    def session(self) -> Callable[..., AbstractContextManager[Session]]:
+    def session(self):
         """
         Allow to access the database session
         """
