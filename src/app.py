@@ -3,14 +3,10 @@ Main entrypoint
 """
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from src.config.db import DATABASE_URL_CONECTION
 
 # pylint: disable=import-outside-toplevel
-
-db = SQLAlchemy()
-migrate = Migrate(directory="./src/config/migrations")
 
 
 def create_app():
@@ -25,8 +21,12 @@ def create_app():
         SQLALCHEMY_TRACK_MODIFICATIONS=True,
     )
 
-    db.init_app(app)
-    migrate.init_app(app, db)
+    from src.config.container import Container
+
+    app.container = Container()
+
+    migrate = Migrate(directory="./src/config/migrations")
+    migrate.init_app(app, app.container.db)
 
     from .api.health.health_controller import health_bp
 

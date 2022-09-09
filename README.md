@@ -38,6 +38,12 @@ If no version is specified, the latest version will be installed with caret, but
 poetry lock # regenerates lockfile
 ```
 
+## Dependency Injection
+
+Dependency injection have been implemented using `dependency-injection` python library. Following the documentation and the [tutorial](https://python-dependency-injector.ets-labs.org/examples/fastapi-sqlalchemy.html).
+
+To use dependecy injection have to take into account that providers have to be defined on the `Container.py` defined into `src/confg/`. Actual configuration of the dependency injection resolver is only set up to resolve dependencies inside the `src/api/`.
+
 ### Docker
 
 We use Docker as a utility tool, mainly for running a Postgres, which is the Database that we have deployed with RDS. In the `docker-compose.yml` you have two services:
@@ -69,7 +75,6 @@ If you're using a M1 chipset based computer, you may encounter some problems whe
 We use [Heroku](https://www.heroku.com/) to publish this API so it can be consumed. Heroku settings are set in repositorie's CI/CD workflows, so you do not need anything to worry about to this matter.
 
 For now we just have a main environment that you can access [through this URL](https://oipie.herokuapp.com/)
-
 
 ### Project management
 
@@ -109,9 +114,11 @@ All the main code of the application lives under `src`
 ### CI/CD
 
 Continous integration execute pylint and all tests on each push to any branch.
+<<<<<<< HEAD
+=======
 
 Continous deployment is executed only on master brach after all previous actions have succed.
-
+>>>>>>> 821f0cad68385585254999a06e6ed07a24d86eb2
 
 ## 📲 Contact
 
