@@ -14,8 +14,6 @@ ENV FLASK_APP=src/app.py
 RUN poetry config virtualenvs.create false
 RUN poetry install --only main
 
-ENV FLASK_APP=src/app.py
-
 COPY . .
 RUN chmod +x ./scripts/entrypoint.sh
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
