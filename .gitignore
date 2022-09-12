@@ -1,5 +1,5 @@
 # Virtual environments
-venv
+.venv
 
 # Pycache
 __pycache__
@@ -12,4 +12,7 @@ __pycache__
 instance
 
 # IDE
-.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea

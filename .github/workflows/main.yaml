@@ -15,7 +15,11 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
       - name: Build and push to Heroku
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} --recursive
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Relase last container to Heroku
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       - name: Relase last container to Heroku
