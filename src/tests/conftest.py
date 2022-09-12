@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from dependency_injector import providers
 from src.app import create_app
 from src.config.container import Container
-from src.config.database import  TestingDatabase
+from src.config.database import TestingDatabase
 from src.config.db import database_url_connection
 
 database = TestingDatabase()
@@ -58,9 +58,7 @@ def create_test_app(session):
     database_test_config = {"database_name": "oipie_tests"}
     database_test_uri = database_url_connection(database_test_config)
     app_factory = create_app()
-    app_factory.config.update(
-        {"TESTING": True, "SQLALCHEMY_DATABASE_URI": database_test_uri}
-    )
+    app_factory.config.update({"TESTING": True, "SQLALCHEMY_DATABASE_URI": database_test_uri})
     app_factory.container.db.override(providers.Singleton(TestingDatabase))
 
     # other setup can go here

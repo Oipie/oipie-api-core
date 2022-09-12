@@ -10,5 +10,5 @@ def test_index_recipes_works(client):
     response = client.get("/recipes")
 
     assert response.status_code == 200
-    assert response.json['items'] == []
-    assert response.json['meta']['totalItems'] == 0
+    assert response.json["items"] == []
+    assert response.json["meta"]["totalItems"] == 0

@@ -17,7 +17,7 @@ class Database:
     Includes all methods of SqlAlquemy data implementation
     """
 
-    def __init__(self, url_connection = database_url_connection()):
+    def __init__(self, url_connection=database_url_connection()):
         self._engine = create_engine(url_connection, echo=False)
         self._metadata = MetaData(bind=self._engine)
         self._session_factory = orm.scoped_session(
@@ -61,10 +61,12 @@ class Database:
         finally:
             session.close()
 
+
 class TestingDatabase(Database):
     """
     Database class for testing purposes
     """
+
     def __init__(self):
         database_test_config = {"database_name": "oipie_tests"}
         database_test_uri = database_url_connection(database_test_config)
