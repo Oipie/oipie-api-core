@@ -3,7 +3,6 @@ File to create all needed fixtures to set up a Flask client
 """
 # pylint: disable=redefined-outer-name, unused-argument
 import pytest
-from sqlalchemy import inspect
 from sqlalchemy.orm import sessionmaker
 from dependency_injector import providers
 from src.app import create_app
@@ -42,12 +41,9 @@ def session(connection):
 @pytest.fixture(scope="session", autouse=True)
 def initialise_db():
     """
-    Migrates and cleans the database once before running tests
+    Migrates the database once before running tests
     """
     database.create_database()
-    inspector = inspect(engine)
-    for table_name in reversed(inspector.get_table_names()):
-        engine.execute(f'TRUNCATE TABLE "{table_name}" RESTART IDENTITY CASCADE')
 
 
 @pytest.fixture()
