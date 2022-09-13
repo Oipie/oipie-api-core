@@ -6,7 +6,7 @@ import logging
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, orm, MetaData
-from src.config.db import DATABASE_URL_CONECTION
+from src.config.db import database_url_connection
 
 Models = declarative_base()
 logger = logging.getLogger(__name__)
@@ -17,8 +17,8 @@ class Database:
     Includes all methods of SqlAlquemy data implementation
     """
 
-    def __init__(self):
-        self._engine = create_engine(DATABASE_URL_CONECTION, echo=False)
+    def __init__(self, url_connection=database_url_connection()):
+        self._engine = create_engine(url_connection, echo=False)
         self._metadata = MetaData(bind=self._engine)
         self._session_factory = orm.scoped_session(
             orm.sessionmaker(
@@ -60,3 +60,14 @@ class Database:
             raise
         finally:
             session.close()
+
+
+class TestingDatabase(Database):
+    """
+    Database class for testing purposes
+    """
+
+    def __init__(self):
+        database_test_config = {"database_name": "oipie_tests"}
+        database_test_uri = database_url_connection(database_test_config)
+        super().__init__(database_test_uri)

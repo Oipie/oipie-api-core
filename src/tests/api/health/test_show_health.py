@@ -1,6 +1,7 @@
 """
 Tests to check health SHOW endpoint
 """
+# pylint: disable=redefined-outer-name,unused-argument
 
 
 def test_show_health(client):

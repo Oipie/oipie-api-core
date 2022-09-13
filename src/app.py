@@ -4,7 +4,7 @@ Main entrypoint
 import os
 from flask import Flask
 from flask_migrate import Migrate
-from src.config.db import DATABASE_URL_CONECTION
+from src.config.db import database_url_connection
 
 # pylint: disable=import-outside-toplevel
 
@@ -17,7 +17,7 @@ def create_app():
 
     app.config.from_mapping(
         SECRET_KEY="dev",
-        SQLALCHEMY_DATABASE_URI=DATABASE_URL_CONECTION,
+        SQLALCHEMY_DATABASE_URI=database_url_connection(),
         SQLALCHEMY_TRACK_MODIFICATIONS=True,
     )
 
