@@ -5,7 +5,7 @@ from contextlib import contextmanager
 import logging
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, orm, MetaData
+from sqlalchemy import create_engine, orm
 from src.config.db import database_url_connection
 
 Models = declarative_base()
@@ -19,7 +19,6 @@ class Database:
 
     def __init__(self, url_connection=database_url_connection()):
         self._engine = create_engine(url_connection, echo=False)
-        self._metadata = MetaData(bind=self._engine)
         self._session_factory = orm.scoped_session(
             orm.sessionmaker(
                 autocommit=False,
@@ -44,7 +43,7 @@ class Database:
         """
         Returns database metadata
         """
-        return self._metadata
+        return Models.metadata
 
     @contextmanager
     def session(self):
