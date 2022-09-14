@@ -23,7 +23,8 @@ logger = logging.getLogger("alembic.env")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
+from src.core.users.infrastructure import user_model
+
 # target_metadata = mymodel.Base.metadata
 
 config.set_main_option(
