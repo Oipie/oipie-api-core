@@ -2,6 +2,7 @@
 User repository SQLAlchemy implementation tests
 """
 import pytest
+from src.core.users.domain.user import User
 from src.core.users.infrastructure.user_repository_sqlalchemy import UsersRepositorySQLAlchemy
 from src.core.users.infrastructure.user_model import UserModel
 from src.tests.fixtures.user_fixture import JOHN
@@ -79,6 +80,22 @@ def test_find_by_nickname_finds_client(
     assert user is not None
     serialized_user = user.serialize()
     assert serialized_user["nickname"] == nickname
+
+
+def test_create_creates_new_user(users_repository: UsersRepositorySQLAlchemy):
+    """
+    Checks new user creation
+    """
+    user = User.create(JOHN["nickname"], JOHN["email"], JOHN["password"])
+
+    user_created = users_repository.create(user)
+
+    assert user_created is not None
+    assert user_created.id_ is not None
+    assert user_created.uuid is not None
+    assert user_created.nickname == JOHN["nickname"]
+    assert user_created.email == JOHN["email"]
+    assert user_created.password == JOHN["password"]
 
 
 # pylint: enable=redefined-outer-name, unused-argument
