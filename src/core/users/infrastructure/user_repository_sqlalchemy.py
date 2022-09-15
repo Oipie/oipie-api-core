@@ -20,8 +20,22 @@ class UsersRepositorySQLAlchemy(UsersRepository):
         self.session = session_factory
 
     def find_by_email(self, email: str) -> User or None:
+        """
+        Tries to find an user in database by their email
+        """
         with self.session() as session:
             user_model = session.query(self.model).filter_by(email=email).one_or_none()
+            if user_model is None:
+                return None
+
+            return user_model.to_domain_object()
+
+    def find_by_nickname(self, nickname: str) -> User or None:
+        """
+        Tries to find an user in database by their nickname
+        """
+        with self.session() as session:
+            user_model = session.query(self.model).filter_by(nickname=nickname).one_or_none()
             if user_model is None:
                 return None
 

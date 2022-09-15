@@ -55,4 +55,30 @@ def test_find_by_email_finds_client(users_repository: UsersRepositorySQLAlchemy,
     assert serialized_user["email"] == email
 
 
+def test_find_by_nickname_not_finds_client(users_repository: UsersRepositorySQLAlchemy):
+    """
+    Checks user is not found if nickname does not exist in repository
+    """
+    nickname = JOHN["nickname"]
+
+    user = users_repository.find_by_nickname(nickname)
+
+    assert user is None
+
+
+def test_find_by_nickname_finds_client(
+    users_repository: UsersRepositorySQLAlchemy, create_john_user
+):
+    """
+    Checks user is found if nickname exists in repository
+    """
+    nickname = JOHN["nickname"]
+
+    user = users_repository.find_by_nickname(nickname)
+
+    assert user is not None
+    serialized_user = user.serialize()
+    assert serialized_user["nickname"] == nickname
+
+
 # pylint: enable=redefined-outer-name, unused-argument
