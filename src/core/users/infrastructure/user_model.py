@@ -3,7 +3,7 @@ User Database Model
 """
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Integer, cast
+from sqlalchemy import Column, String, Integer
 from src.config.database import Models
 from src.core.users.domain.user import User
 
@@ -40,10 +40,10 @@ class UserModel(Models):
         """
         return User(
             {
-                "id_": cast(self.id, Integer),
-                "uuid": cast(self.uuid, String),
-                "nickname": cast(self.nickname, String),
-                "email": cast(self.email, String),
-                "password": cast(self.password, String),
+                "id_": self.id,
+                "uuid": self.uuid,
+                "nickname": self.nickname,
+                "email": self.email,
+                "password": self.password,
             }
         )
