@@ -9,6 +9,7 @@ from src.core.users.domain.errors.user_with_nickname_already_exists_error import
 )
 from src.core.users.domain.user import User
 from src.core.users.domain.users_repository import UsersRepository
+from src.shared.services.password.password import Password
 
 
 class UsersRegisterer:
@@ -16,8 +17,9 @@ class UsersRegisterer:
     This class returns a list of recipies
     """
 
-    def __init__(self, users_repository: UsersRepository):
+    def __init__(self, users_repository: UsersRepository, password_hasher: Password):
         self.users_repository = users_repository
+        self.password_hasher = password_hasher
 
     def execute(self, nickname: str, email: str, password: str) -> None:
         """
@@ -31,5 +33,7 @@ class UsersRegisterer:
         if user_with_nickname is not None:
             raise UserWithNicknameAlreadyExistsError(nickname)
 
-        new_user = User.create(nickname, email, password)
+        new_user = User.create(
+            nickname, email, password=self.password_hasher.generate_from(password)
+        )
         self.users_repository.create(new_user)
