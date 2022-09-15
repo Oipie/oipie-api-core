@@ -40,3 +40,15 @@ class UsersRepositorySQLAlchemy(UsersRepository):
                 return None
 
             return user_model.to_domain_object()
+
+    def create(self, user: User) -> User:
+        """
+        Inserts a new user to the database
+        """
+        with self.session() as session:
+            user_model = UserModel.from_domain_object(user)
+            session.add(user_model)
+            session.flush()
+            session.refresh(user_model)
+
+            return user_model.to_domain_object()

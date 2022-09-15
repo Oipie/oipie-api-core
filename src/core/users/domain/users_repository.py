@@ -23,3 +23,10 @@ class UsersRepository(abc.ABC):
         Find user on database by nickname
         """
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def create(self, user: User) -> User:
+        """
+        Find user on database by nickname
+        """
+        raise NotImplementedError
