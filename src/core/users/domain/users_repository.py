@@ -16,3 +16,10 @@ class UsersRepository(abc.ABC):
         Find user on database by email
         """
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def find_by_nickname(self, nickname: str) -> User or None:
+        """
+        Find user on database by nickname
+        """
+        raise NotImplementedError
