@@ -16,12 +16,20 @@ Session = sessionmaker()
 container = Container()
 
 
+@pytest.fixture(scope="session")
+def database_instance():
+    """
+    Returns database fake instance
+    """
+    return database
+
+
 @pytest.fixture(scope="module")
 def connection():
     """
     Manages database connection
     """
-    connection = engine.connect()
+    connection = database.get_engine().connect()
     yield connection
     connection.close()
 
@@ -32,7 +40,7 @@ def session(connection):
     Manages database session and rollsback executed queries
     """
     transaction = connection.begin()
-    session = Session(bind=connection)
+    session = database.session()
     yield session
     session.close()
     transaction.rollback()

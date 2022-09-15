@@ -70,3 +70,10 @@ class TestingDatabase(Database):
         database_test_config = {"database_name": "oipie_tests"}
         database_test_uri = database_url_connection(database_test_config)
         super().__init__(database_test_uri)
+        self._session = self._session_factory()
+
+    def session(self):
+        """
+        Allow to access the database session
+        """
+        return self._session
