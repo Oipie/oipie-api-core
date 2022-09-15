@@ -13,20 +13,20 @@ class UsersRepository(abc.ABC):
     @abc.abstractmethod
     def find_by_email(self, email: str) -> User or None:
         """
-        Find user on database by email
+        Finds user on repository by email
         """
         raise NotImplementedError
 
     @abc.abstractmethod
     def find_by_nickname(self, nickname: str) -> User or None:
         """
-        Find user on database by nickname
+        Finds user on repository by nickname
         """
         raise NotImplementedError
 
     @abc.abstractmethod
     def create(self, user: User) -> User:
         """
-        Find user on database by nickname
+        Inserts user to repository
         """
         raise NotImplementedError

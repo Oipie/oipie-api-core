@@ -2,6 +2,7 @@
 User module
 """
 from typing import Optional, TypedDict
+from uuid import uuid4
 
 
 class UserAttributes(TypedDict):
@@ -27,6 +28,20 @@ class User:
         self.nickname = user_attributes.get("nickname")
         self.email = user_attributes.get("email")
         self.password = user_attributes.get("password")
+
+    @staticmethod
+    def create(nickname: str, email: str, password: str):
+        """
+        Creates a new user with a new uuid
+        """
+        return User(
+            user_attributes={
+                "uuid": uuid4(),
+                "nickname": nickname,
+                "email": email,
+                "password": password,
+            }
+        )
 
     def serialize(self) -> UserAttributes:
         """

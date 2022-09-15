@@ -31,3 +31,18 @@ def test_serialize_is_not_equal():
     result = user.serialize()
 
     assert result != user_attributes
+
+
+def test_create_creates_user():
+    """
+    Checks creates create a new domain User
+    """
+    user_attributes: UserAttributes = JOHN
+    user = User.create(
+        user_attributes["nickname"], user_attributes["email"], user_attributes["password"]
+    )
+
+    assert user.uuid is not None
+    assert user.nickname == user_attributes["nickname"]
+    assert user.email == user_attributes["email"]
+    assert user.password == user_attributes["password"]
