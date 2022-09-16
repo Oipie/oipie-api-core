@@ -31,9 +31,14 @@ def create_app():
     from .api.health.health_controller import health_bp
 
     app.register_blueprint(health_bp)
+
     from .api.recipes.recipes_controller import recipes_bp
 
     app.register_blueprint(recipes_bp)
+
+    from .api.auth.auth_controller import auth_bp
+
+    app.register_blueprint(auth_bp)
 
     from .api.shared.handle_http_exception import errors_bp
 
