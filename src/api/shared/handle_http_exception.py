@@ -16,9 +16,9 @@ def handle_exception(error):
     # replace the body with JSON
     response.data = json.dumps(
         {
-            "code": e.code,
-            "name": e.name,
-            "description": e.description,
+            "code": error.code,
+            "name": error.name,
+            "description": error.description,
         }
     )
     response.content_type = "application/json"
