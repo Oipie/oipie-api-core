@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, orm
 from src.config.db import database_url_connection
 
+
 Models = declarative_base()
 logger = logging.getLogger(__name__)
 
