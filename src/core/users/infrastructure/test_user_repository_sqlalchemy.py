@@ -11,7 +11,7 @@ from src.tests.fixtures.user_fixture import JOHN
 
 
 @pytest.fixture()
-def users_repository(database_instance):
+def users_repository(database_instance, session):
     """
     Creates a UserRepositorySQLAlchemy instance with session
     """
@@ -29,7 +29,7 @@ def create_john_user(session):
     )
 
     session.add(john_model)
-    session.flush()
+    session.commit()
 
 
 def test_find_by_email_not_finds_client(users_repository: UsersRepositorySQLAlchemy):
