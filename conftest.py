@@ -40,9 +40,9 @@ def session():
     Manages database session and rollsback executed queries
     """
     session = database.session()
-    session.begin_nested()
+    nested = session.begin_nested()
     yield session
-    session.rollback()
+    nested.rollback()
     session.close()
 
 
