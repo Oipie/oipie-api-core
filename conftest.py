@@ -3,67 +3,72 @@ File to create all needed fixtures to set up a Flask client
 """
 # pylint: disable=redefined-outer-name, unused-argument
 import pytest
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Connection, Engine
 from dependency_injector import providers
 from src.app import create_app
 from src.config.container import Container
 from src.config.database import TestingDatabase
 from src.config.db import database_url_connection
 
-database = TestingDatabase()
-engine = database.get_engine()
-Session = sessionmaker()
 container = Container()
 
 
 @pytest.fixture(scope="session")
-def database_instance():
+def engine():
     """
-    Returns database fake instance
+    Creates engine for testing
     """
-    return database
+    return create_engine(url=database_url_connection({"database_name": "oipie_tests"}))
 
 
-@pytest.fixture(scope="module")
-def connection():
+@pytest.fixture(scope="session")
+def connection(engine: Engine):
     """
     Manages database connection
     """
-    connection = database.get_engine().connect()
+    connection = engine.connect()
     yield connection
     connection.close()
 
 
-@pytest.fixture(scope="function")
-def session():
+@pytest.fixture(scope="session")
+def database(connection: Connection):
     """
-    Manages database session and rollsback executed queries
+    Returns database fake instance
     """
-    session = database.session()
-    nested = session.begin_nested()
-    yield session
-    nested.rollback()
-    session.close()
+    return TestingDatabase(connection)
 
 
 @pytest.fixture(scope="session", autouse=True)
-def initialise_db():
+def initialise_db(database: TestingDatabase):
     """
     Migrates the database once before running tests
     """
     database.create_database()
+    yield
+    database.drop_database()
+
+
+@pytest.fixture(scope="function")
+def session(database: TestingDatabase):
+    """
+    Manages database session and rollsback executed queries
+    """
+    with database.session() as session:
+        nested = session.begin_nested()
+        yield session
+        nested.rollback()
+        session.close()
 
 
 @pytest.fixture()
-def create_test_app(session):
+def create_test_app(database: TestingDatabase):
     """
     This method returns an instance of an app for testing purposes
     """
-    database_test_config = {"database_name": "oipie_tests"}
-    database_test_uri = database_url_connection(database_test_config)
     app_factory = create_app()
-    app_factory.config.update({"TESTING": True, "SQLALCHEMY_DATABASE_URI": database_test_uri})
-    app_factory.container.db.override(providers.Singleton(TestingDatabase))
+    app_factory.container.db.override(providers.Object(database))
 
     # other setup can go here
 
@@ -80,12 +85,12 @@ def client(create_test_app):
     return create_test_app.test_client()
 
 
-@pytest.fixture()
-def runner(create_test_app):
-    """
-    This methods takes an app fixture and returns a Flask cli client for testing purposes
-    """
-    return create_test_app.test_cli_runner()
+# @pytest.fixture()
+# def runner(create_test_app):
+#     """
+#     This methods takes an app fixture and returns a Flask cli client for testing purposes
+#     """
+#     return create_test_app.test_cli_runner()
 
 
 # pylint: enable=redefined-outer-name, unused-argument

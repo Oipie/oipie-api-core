@@ -17,7 +17,7 @@ def create_engine(url_connection: str):
     """
     Creates an engine
     """
-    engine = create_engine_sqlalchemy(url_connection, echo=True)
+    engine = create_engine_sqlalchemy(url_connection)
     connection = engine.connect()
     yield connection
     connection.close()

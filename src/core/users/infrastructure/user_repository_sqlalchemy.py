@@ -54,5 +54,6 @@ class UsersRepositorySQLAlchemy(UsersRepository):
         with self.session() as session:
             session.add(user_model)
             session.flush()
+            session.refresh(user_model)
 
         return user_model.to_domain_object()
