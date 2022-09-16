@@ -35,15 +35,15 @@ def connection():
 
 
 @pytest.fixture(scope="function")
-def session(connection):
+def session():
     """
     Manages database session and rollsback executed queries
     """
-    transaction = connection.begin()
     session = database.session()
+    session.begin_nested()
     yield session
+    session.rollback()
     session.close()
-    transaction.rollback()
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -18,13 +18,9 @@ class Database:
     """
 
     def __init__(self, url_connection=database_url_connection()):
-        self._engine = create_engine(url_connection, echo=False)
+        self._engine = create_engine(url_connection)
         self._session_factory = orm.scoped_session(
-            orm.sessionmaker(
-                autocommit=False,
-                autoflush=False,
-                bind=self._engine,
-            ),
+            orm.sessionmaker(bind=self._engine),
         )
 
     def create_database(self):
