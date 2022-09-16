@@ -6,11 +6,11 @@ format = "black ."
 "format:check" = "black --check ."
 lint = "pylint --output-format colorized src/**/*.py"
 "lint:check" = "pylint src/**/*.py"
-"migration:up" = { "cmd" = "flask db upgrade", "env" = { "FLASK_APP" = "src/app" } }
-"migration:down" = { "cmd" = "flask db downgrade", "env" = { "FLASK_APP" = "src/app" } }
+"migration:up" = { "cmd" = "flask db upgrade", "envfile" = ".env" }
+"migration:down" = { "cmd" = "flask db downgrade", "envfile" = ".env" }
 "run:checks" = ["format-check", "lint-check"]
-"start:dev" = { "cmd" = "flask run", "env" = { "FLASK_APP" = "src/app" } }
-"start:debug" = { "cmd" = "flask run", "env" = { "FLASK_APP" = "src/app", "FLASK_DEBUG" = 1 } }
+"start:dev" = { "cmd" = "flask run", "envfile" = ".env" }
+"start:debug" = { "cmd" = "flask run", "envfile" = ".env" }
 test = "pytest"
 
 [tool.poetry]
@@ -43,6 +43,7 @@ pylint = "2.15.0"
 pylint-flask = "0.6.0"
 pylint-flask-sqlalchemy = "0.2.0"
 pytest = "7.1.2"
+python-dotenv = "0.21.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
