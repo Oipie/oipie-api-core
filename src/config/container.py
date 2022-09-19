@@ -8,6 +8,7 @@ from src.core.recipes.infrastructure.recipes_repository_sqlalchemy import (
 )
 from src.core.users.infrastructure.user_repository_sqlalchemy import UsersRepositorySQLAlchemy
 from src.core.users.application.users_registerer import UsersRegisterer
+from src.core.users.application.users_login import UsersLogin
 from src.shared.services.password.argon2_password import Argon2Password
 
 
@@ -29,6 +30,9 @@ class Container(containers.DeclarativeContainer):
     password_hasher = providers.Singleton(Argon2Password)
     users_registerer = providers.Singleton(
         UsersRegisterer, users_repository=users_repository, password_hasher=password_hasher
+    )
+    users_login = providers.Singleton(
+        UsersLogin, users_repository=users_repository, password_hasher=password_hasher
     )
 
     # pylint: enable=no-member
