@@ -9,8 +9,8 @@ lint = "pylint --output-format colorized src/**/*.py"
 "migration:up" = { "cmd" = "flask db upgrade", "envfile" = ".env" }
 "migration:down" = { "cmd" = "flask db downgrade", "envfile" = ".env" }
 "run:checks" = ["format-check", "lint-check"]
-"start:dev" = { "cmd" = "flask run", "envfile" = ".env" }
-"start:debug" = { "cmd" = "flask run", "envfile" = ".env" }
+"start:dev" = { "cmd" = "flask run", "envfile" = ".env", env = { "FLASK_DEBUG" = "0" } }
+"start:debug" = { "cmd" = "flask run", "envfile" = ".env", env = { "FLASK_DEBUG" = "1" } }
 test = "pytest"
 
 [tool.poetry]
