@@ -20,14 +20,14 @@ class Container(containers.DeclarativeContainer):
 
     db = providers.Singleton(Database)
     # pylint: disable=no-member
-    recipes_repository = providers.Factory(
+    recipes_repository = providers.Singleton(
         RecipesRepositorySQLAlchemy, session_factory=db.provided.session
     )
-    users_repository = providers.Factory(
+    users_repository = providers.Singleton(
         UsersRepositorySQLAlchemy, session_factory=db.provided.session
     )
-    password_hasher = providers.Factory(Argon2Password)
-    users_registerer = providers.Factory(
+    password_hasher = providers.Singleton(Argon2Password)
+    users_registerer = providers.Singleton(
         UsersRegisterer, users_repository=users_repository, password_hasher=password_hasher
     )
 
