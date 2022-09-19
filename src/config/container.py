@@ -10,6 +10,7 @@ from src.core.recipes.infrastructure.recipes_repository_sqlalchemy import (
 )
 from src.core.users.infrastructure.user_repository_sqlalchemy import UsersRepositorySQLAlchemy
 from src.core.users.application.users_registerer import UsersRegisterer
+from src.core.users.application.users_login import UsersLogin
 from src.shared.services.password.argon2_password import Argon2Password
 
 
@@ -35,14 +36,17 @@ class Container(containers.DeclarativeContainer):
     db = providers.Factory(Database, connection=connection)
 
     # pylint: disable=no-member
-    recipes_repository = providers.Factory(
+    recipes_repository = providers.Singleton(
         RecipesRepositorySQLAlchemy, session_factory=db.provided.session
     )
-    users_repository = providers.Factory(
+    users_repository = providers.Singleton(
         UsersRepositorySQLAlchemy, session_factory=db.provided.session
     )
-    users_registerer = providers.Factory(
+    users_registerer = providers.Singleton(
         UsersRegisterer, users_repository=users_repository, password_hasher=password_hasher
+    )
+    users_login = providers.Singleton(
+        UsersLogin, users_repository=users_repository, password_hasher=password_hasher
     )
 
     # pylint: enable=no-member
