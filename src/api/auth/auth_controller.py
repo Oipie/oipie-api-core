@@ -13,14 +13,29 @@ auth_bp = Blueprint("auth_bp", __name__)
 
 @auth_bp.route("/register", methods=["POST"])
 @inject
-def index(users_registerer: UsersRegisterer = Provide[Container.users_registerer]):
+def register(users_registerer: UsersRegisterer = Provide[Container.users_registerer]):
     """
     This route returns a 201 CREATED if user is successfully registered
     """
     if request.is_json:
         data = request.get_json(force=True)
         users_registerer.execute(data["nickname"], data["email"], data["password"])
-
         return Response(status=201)
+
+    return Response(status=400)
+
+
+@auth_bp.route("/login", methods=["POST"])
+@inject
+def login(users_login: UsersRegisterer = Provide[Container.users_login]):
+    """
+    This route returns a 200 OK with the auth token user's credentials are successful
+    """
+    # raise Exception("SENKIU")
+    if request.is_json:
+        data = request.get_json(force=True)
+        users_login.execute(data["email"], data["password"])
+
+        return Response(status=200)
 
     return Response(status=400)
