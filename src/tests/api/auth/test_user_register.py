@@ -2,43 +2,25 @@
 Tests to check /register (POST) endpoint
 """
 from http import HTTPStatus
-import json
-from src.tests.fixtures.user_fixture import JOHN, JANE
+from src.tests.fixtures.user_fixture import JANE
 
 
-def test_user_is_registered(client):
+def test_user_is_registered(api_client):
     """
     This test checks that an user is registered successfully
     """
 
-    mimetype = "application/json"
-    headers = {"Content-Type": mimetype, "Accept": mimetype}
-    data = {
-        "nickname": JOHN["nickname"],
-        "email": JOHN["email"],
-        "password": JOHN["password"],
-    }
-
-    response = client.post("register", data=json.dumps(data), headers=headers)
-
-    assert response.status_code == HTTPStatus.CREATED
+    api_client.register_user()
 
 
-def test_user_register_fails_if_already_existing(client):
+def test_user_register_fails_if_already_existing(api_client):
     """
-    This test checks that an user is registered successfully
+    This test checks that an user fails if trying to register the same user twice
     """
 
-    mimetype = "application/json"
-    headers = {"Content-Type": mimetype, "Accept": mimetype}
-    data = {
-        "nickname": JANE["nickname"],
-        "email": JANE["email"],
-        "password": JANE["password"],
-    }
-
-    response = client.post("register", data=json.dumps(data), headers=headers)
-    register_response = client.post("register", data=json.dumps(data), headers=headers)
-
-    assert response.status_code == HTTPStatus.CREATED
-    assert register_response.status_code == HTTPStatus.CONFLICT
+    api_client.register_user(
+        email=JANE["email"], nickname=JANE["nickname"], expected_status=HTTPStatus.CREATED
+    )
+    api_client.register_user(
+        email=JANE["email"], nickname=JANE["nickname"], expected_status=HTTPStatus.CONFLICT
+    )
