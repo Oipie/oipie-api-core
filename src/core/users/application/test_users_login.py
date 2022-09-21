@@ -22,6 +22,21 @@ def password_hasher():
     return PlainTextPassword()
 
 
+def test_user_login_returns_token(password_hasher):
+    """
+    Check user is found and returns auth token successfully
+    """
+    existing_user = User.create(
+        nickname=JOHN["nickname"], email=JOHN["email"], password=JOHN["password"]
+    )
+    users_repository = UsersRepositoryFake(users=[existing_user])
+    users_registerer = UsersLogin(users_repository, password_hasher)
+
+    result = users_registerer.execute(JOHN["email"], JOHN["password"])
+
+    assert result is not None
+
+
 def test_user_not_found_raises_credentials_error(password_hasher):
     """
     Checks user not found in repository by email raises UserCredentialsError
