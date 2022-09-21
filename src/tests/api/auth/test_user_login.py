@@ -12,4 +12,7 @@ def test_user_login_successfully(api_client):
     api_client.register_user(
         email=JOHN["email"], nickname=JOHN["nickname"], password=JOHN["password"]
     )
-    api_client.authenticate_user(email=JOHN["email"], password=JOHN["password"])
+
+    response = api_client.authenticate_user(email=JOHN["email"], password=JOHN["password"])
+
+    assert response["auth_token"] is not None
