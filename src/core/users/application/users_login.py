@@ -6,7 +6,7 @@ from src.core.users.domain.errors.user_credentials_error import (
 )
 from src.core.users.domain.users_repository import UsersRepository
 from src.shared.services.password.password import Password
-from src.shared.services.tokenizer.jwt_tokenizer import JwtTokenizer
+from src.shared.services.tokenizer.tokenizer import Tokenizer
 
 
 class UsersLogin:
@@ -14,10 +14,12 @@ class UsersLogin:
     This class executes the flow to authenticate an user
     """
 
-    def __init__(self, users_repository: UsersRepository, password_hasher: Password):
+    def __init__(
+        self, users_repository: UsersRepository, password_hasher: Password, tokenizer: Tokenizer
+    ):
         self.users_repository = users_repository
         self.password_hasher = password_hasher
-        self.tokenizer = JwtTokenizer("secret")
+        self.tokenizer = tokenizer
 
     def execute(self, email: str, password: str) -> str:
         """
