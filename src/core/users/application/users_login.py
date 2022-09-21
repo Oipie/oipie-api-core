@@ -6,6 +6,7 @@ from src.core.users.domain.errors.user_credentials_error import (
 )
 from src.core.users.domain.users_repository import UsersRepository
 from src.shared.services.password.password import Password
+from src.shared.services.tokenizer.jwt_tokenizer import JwtTokenizer
 
 
 class UsersLogin:
@@ -16,8 +17,9 @@ class UsersLogin:
     def __init__(self, users_repository: UsersRepository, password_hasher: Password):
         self.users_repository = users_repository
         self.password_hasher = password_hasher
+        self.tokenizer = JwtTokenizer("secret")
 
-    def execute(self, email: str, password: str) -> None:
+    def execute(self, email: str, password: str) -> str:
         """
         Creates a user if their nickname nor email exist in database
         """
@@ -27,3 +29,5 @@ class UsersLogin:
 
         if not self.password_hasher.verify(user_with_email.password, password):
             raise UserCredentialsError
+
+        return self.tokenizer.encode(user_with_email.to_payload())
