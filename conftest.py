@@ -10,6 +10,7 @@ from src.app import create_app
 from src.config.container import Container
 from src.config.database import TestingDatabase
 from src.config.db import database_url_connection
+from src.tests.utils.api_client import ApiClient
 
 container = Container()
 
@@ -91,6 +92,14 @@ def client(create_test_app):
 #     This methods takes an app fixture and returns a Flask cli client for testing purposes
 #     """
 #     return create_test_app.test_cli_runner()
+
+
+@pytest.fixture()
+def api_client(client):
+    """
+    Generates an API Client
+    """
+    return ApiClient(client)
 
 
 # pylint: enable=redefined-outer-name, unused-argument

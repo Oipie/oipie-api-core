@@ -1,26 +1,18 @@
 """
 Tests to check /register (POST) endpoint
 """
-from http import HTTPStatus
-import json
 from src.tests.fixtures.user_fixture import JOHN
 
 
-def test_user_login_successfully(client):
+def test_user_login_successfully(api_client):
     """
     This test checks that an user is registered successfully
     """
 
-    mimetype = "application/json"
-    headers = {"Content-Type": mimetype, "Accept": mimetype}
-    data = {
-        "nickname": JOHN["nickname"],
-        "email": JOHN["email"],
-        "password": JOHN["password"],
-    }
+    api_client.register_user(
+        email=JOHN["email"], nickname=JOHN["nickname"], password=JOHN["password"]
+    )
 
-    response = client.post("register", data=json.dumps(data), headers=headers)
-    login_response = client.post("login", data=json.dumps(data), headers=headers)
+    response = api_client.authenticate_user(email=JOHN["email"], password=JOHN["password"])
 
-    assert response.status_code == HTTPStatus.CREATED
-    assert login_response.status_code == HTTPStatus.OK
+    assert response["auth_token"] is not None

@@ -3,12 +3,12 @@ Tests to check recipes INDEX endpoint
 """
 
 
-def test_index_recipes_works(client):
+def test_index_recipes_works(api_client):
     """
     This test checks if /recipes endpoint is up
     """
-    response = client.get("/recipes")
 
-    assert response.status_code == 200
-    assert response.json["items"] == []
-    assert response.json["meta"]["totalItems"] == 0
+    response = api_client.get_recipes()
+
+    assert response["items"] == []
+    assert response["meta"]["totalItems"] == 0

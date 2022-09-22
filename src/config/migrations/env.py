@@ -25,8 +25,6 @@ logger = logging.getLogger("alembic.env")
 # for 'autogenerate' support
 from src.core.users.infrastructure import user_model
 
-# target_metadata = mymodel.Base.metadata
-
 config.set_main_option(
     "sqlalchemy.url",
     str(db_alpha.get_engine().url).replace("%", "%%"),
