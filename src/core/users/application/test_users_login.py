@@ -9,6 +9,7 @@ from src.core.users.domain.errors.user_credentials_error import (
 from src.core.users.domain.user import User
 from src.core.users.infrastructure.user_repository_fake import UsersRepositoryFake
 from src.shared.services.password.plain_text_password import PlainTextPassword
+from src.shared.services.tokenizer.jwt_tokenizer import JwtTokenizer
 from src.tests.fixtures.user_fixture import JANE, JOHN
 
 # pylint: disable=redefined-outer-name
@@ -22,7 +23,15 @@ def password_hasher():
     return PlainTextPassword()
 
 
-def test_user_login_returns_token(password_hasher):
+@pytest.fixture(scope="module")
+def tokenizer():
+    """
+    Fixture to not compute hard passwords when registering users in use case
+    """
+    return JwtTokenizer("secret")
+
+
+def test_user_login_returns_token(password_hasher, tokenizer):
     """
     Check user is found and returns auth token successfully
     """
@@ -30,25 +39,25 @@ def test_user_login_returns_token(password_hasher):
         nickname=JOHN["nickname"], email=JOHN["email"], password=JOHN["password"]
     )
     users_repository = UsersRepositoryFake(users=[existing_user])
-    users_registerer = UsersLogin(users_repository, password_hasher)
+    users_registerer = UsersLogin(users_repository, password_hasher, tokenizer)
 
     result = users_registerer.execute(JOHN["email"], JOHN["password"])
 
     assert result is not None
 
 
-def test_user_not_found_raises_credentials_error(password_hasher):
+def test_user_not_found_raises_credentials_error(password_hasher, tokenizer):
     """
     Checks user not found in repository by email raises UserCredentialsError
     """
     users_repository = UsersRepositoryFake()
-    users_registerer = UsersLogin(users_repository, password_hasher)
+    users_registerer = UsersLogin(users_repository, password_hasher, tokenizer)
 
     with pytest.raises(UserCredentialsError):
         users_registerer.execute(JOHN["email"], JOHN["password"])
 
 
-def test_user_password_not_matches_raises_credentials_error(password_hasher):
+def test_user_password_not_matches_raises_credentials_error(password_hasher, tokenizer):
     """
     Checks password hasher fails if password does not match user's found in repository
     """
@@ -56,7 +65,7 @@ def test_user_password_not_matches_raises_credentials_error(password_hasher):
         nickname=JANE["nickname"], email=JOHN["email"], password=JOHN["password"]
     )
     users_repository = UsersRepositoryFake(users=[existing_user])
-    users_registerer = UsersLogin(users_repository, password_hasher)
+    users_registerer = UsersLogin(users_repository, password_hasher, tokenizer)
 
     with pytest.raises(UserCredentialsError):
         users_registerer.execute(JOHN["email"], JANE["password"])
