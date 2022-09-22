@@ -32,7 +32,6 @@ def login(users_login: UsersRegisterer = Provide[Container.users_login]):
     """
     This route returns a 200 OK with the auth token user's credentials are successful
     """
-    # raise Exception("SENKIU")
     if request.is_json:
         data = request.get_json(force=True)
         auth_token = users_login.execute(data["email"], data["password"])
