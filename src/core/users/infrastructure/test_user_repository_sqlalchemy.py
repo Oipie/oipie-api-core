@@ -3,7 +3,7 @@ User repository SQLAlchemy implementation tests
 """
 import pytest
 from sqlalchemy.orm import Session
-from src.config.database import TestingDatabase
+from src.config.session_handler import SessionHandler
 from src.core.users.domain.user import User
 from src.core.users.infrastructure.user_repository_sqlalchemy import UsersRepositorySQLAlchemy
 from src.core.users.infrastructure.user_model import UserModel
@@ -13,16 +13,16 @@ from src.tests.fixtures.user_fixture import JOHN
 
 
 @pytest.fixture()
-def users_repository(database):
+def users_repository(session_handler: SessionHandler) -> UsersRepositorySQLAlchemy:
     """
     Creates a UserRepositorySQLAlchemy instance with session
     """
 
-    return UsersRepositorySQLAlchemy(database.session)
+    return UsersRepositorySQLAlchemy(session_handler)
 
 
 @pytest.fixture()
-def create_john_user(session: Session):
+def create_john_user(session_handler: SessionHandler):
     """
     Creates user from JOHN fixture
     """
@@ -30,11 +30,11 @@ def create_john_user(session: Session):
         uuid=JOHN["uuid"], nickname=JOHN["nickname"], email=JOHN["email"], password=JOHN["password"]
     )
 
-    session.add(john_model)
-    session.flush()
+    _session: Session = session_handler.get_session()
+    _session.add(john_model)
+    _session.flush()
 
 
-# @pytest.mark.skip()
 def test_find_by_email_not_finds_client(users_repository: UsersRepositorySQLAlchemy):
     """
     Checks user is not found if email does not exist in repository
@@ -46,7 +46,6 @@ def test_find_by_email_not_finds_client(users_repository: UsersRepositorySQLAlch
     assert user is None
 
 
-# @pytest.mark.skip()
 def test_find_by_email_finds_client(users_repository: UsersRepositorySQLAlchemy, create_john_user):
     """
     Checks user is found if email exists in repository
@@ -60,7 +59,6 @@ def test_find_by_email_finds_client(users_repository: UsersRepositorySQLAlchemy,
     assert serialized_user["email"] == email
 
 
-# @pytest.mark.skip()
 def test_find_by_nickname_not_finds_client(users_repository: UsersRepositorySQLAlchemy):
     """
     Checks user is not found if nickname does not exist in repository

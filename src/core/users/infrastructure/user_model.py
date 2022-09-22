@@ -4,7 +4,7 @@ User Database Model
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, String, Integer
-from src.config.database import Models
+from src.config.database_handler import Models
 from src.core.users.domain.user import User
 
 

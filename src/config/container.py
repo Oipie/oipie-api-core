@@ -3,9 +3,10 @@
 """
 from dependency_injector import containers, providers
 from sqlalchemy import create_engine as create_engine_sqlalchemy
-from src.config.database import Database
+from src.config.database_handler import DatabaseHandler
 from src.config.db import database_url_connection
 from src.config.jwt import JWT_SECRET_KEY
+from src.config.session_handler import SessionHandler
 from src.core.recipes.infrastructure.recipes_repository_sqlalchemy import (
     RecipesRepositorySQLAlchemy,
 )
@@ -35,15 +36,19 @@ class Container(containers.DeclarativeContainer):
 
     connection = providers.Resource(create_engine, url_connection=database_url_connection())
     password_hasher = providers.Singleton(Argon2Password)
-    db = providers.Factory(Database, connection=connection)
+    database_handler = providers.Singleton(DatabaseHandler, connection=connection)
+    session_handler = providers.Factory(
+        SessionHandler,
+        connection=connection,
+    )
+
     tokenizer = JwtTokenizer(JWT_SECRET_KEY)
 
-    # pylint: disable=no-member
     recipes_repository = providers.Singleton(
-        RecipesRepositorySQLAlchemy, session_factory=db.provided.session
+        RecipesRepositorySQLAlchemy, session_handler=session_handler
     )
     users_repository = providers.Singleton(
-        UsersRepositorySQLAlchemy, session_factory=db.provided.session
+        UsersRepositorySQLAlchemy, session_handler=session_handler
     )
     users_registerer = providers.Singleton(
         UsersRegisterer, users_repository=users_repository, password_hasher=password_hasher
@@ -54,5 +59,3 @@ class Container(containers.DeclarativeContainer):
         password_hasher=password_hasher,
         tokenizer=tokenizer,
     )
-
-    # pylint: enable=no-member

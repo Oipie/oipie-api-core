@@ -10,7 +10,7 @@ from alembic import context
 
 container = Container()
 
-db_alpha = container.db()
+db_alpha = container.database_handler()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

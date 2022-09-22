@@ -1,9 +1,8 @@
 """
 SQLAlchemy repository for Users
 """
-from typing import Callable, Optional
-from contextlib import AbstractContextManager
-from sqlalchemy.orm import Session
+from typing import Optional
+from src.config.session_handler import SessionHandler
 from src.core.users.domain.user import User
 from src.core.users.domain.users_repository import UsersRepository
 from src.core.users.infrastructure.user_model import UserModel
@@ -16,30 +15,29 @@ class UsersRepositorySQLAlchemy(UsersRepository):
 
     model = UserModel
 
-    def __init__(self, session_factory: Callable[..., AbstractContextManager[Session]]):
-        self.session = session_factory
+    def __init__(self, session_handler: SessionHandler):
+        self.session = session_handler.get_session()
 
-    def find_by_email(self, email: str) -> User or None:
+    def find_by_email(self, email: str) -> Optional[User]:
         """
         Tries to find an user in database by their email
         """
-        user_model: Optional[UserModel]
-        with self.session() as session:
-            user_model = session.query(self.model).filter_by(email=email).one_or_none()
-
+        user_model: Optional[UserModel] = (
+            self.session.query(self.model).filter_by(email=email).one_or_none()
+        )
         if user_model is None:
             return None
 
         return user_model.to_domain_object()
 
-    def find_by_nickname(self, nickname: str) -> User or None:
+    def find_by_nickname(self, nickname: str) -> Optional[User]:
         """
         Tries to find an user in database by their nickname
         """
-        user_model: Optional[UserModel]
-        with self.session() as session:
-            user_model = session.query(self.model).filter_by(nickname=nickname).one_or_none()
 
+        user_model: Optional[UserModel] = (
+            self.session.query(self.model).filter_by(nickname=nickname).one_or_none()
+        )
         if user_model is None:
             return None
 
@@ -51,9 +49,8 @@ class UsersRepositorySQLAlchemy(UsersRepository):
         """
         user_model = UserModel.from_domain_object(user)
 
-        with self.session() as session:
-            session.add(user_model)
-            session.flush()
-            session.refresh(user_model)
+        self.session.add(user_model)
+        self.session.flush()
+        self.session.refresh(user_model)
 
         return user_model.to_domain_object()

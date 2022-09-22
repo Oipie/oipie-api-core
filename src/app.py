@@ -26,7 +26,7 @@ def create_app():
     app.container = Container()
 
     migrate = Migrate(directory="./src/config/migrations")
-    migrate.init_app(app, app.container.db)
+    migrate.init_app(app, app.container.database_handler)
 
     from .api.health.health_controller import health_bp
 
