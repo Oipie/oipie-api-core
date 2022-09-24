@@ -58,7 +58,7 @@ def session_handler(connection):
 
 
 @pytest.fixture()
-def create_test_app():
+def create_test_app(connection: Connection):
     """
     This method returns an instance of an app for testing purposes
     """
@@ -80,20 +80,9 @@ def client(create_test_app):
     return create_test_app.test_client()
 
 
-# @pytest.fixture()
-# def runner(create_test_app):
-#     """
-#     This methods takes an app fixture and returns a Flask cli client for testing purposes
-#     """
-#     return create_test_app.test_cli_runner()
-
-
 @pytest.fixture()
 def api_client(client):
     """
     Generates an API Client
     """
     return ApiClient(client)
-
-
-# pylint: enable=redefined-outer-name, unused-argument

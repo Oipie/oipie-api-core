@@ -16,7 +16,7 @@ class SessionHandler:
 
     def __del__(self):
         try:
-            self._transaction.commit()
+            self._session.commit()
         except:
             self._transaction.rollback()
             raise

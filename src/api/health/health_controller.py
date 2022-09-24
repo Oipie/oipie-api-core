@@ -12,8 +12,6 @@ from src.config.session_handler import SessionHandler
 
 health_bp = Blueprint("health_bp", __name__)
 
-health_bp = Blueprint("health_bp", __name__)
-
 
 @health_bp.route("/health", methods=["GET"])
 @inject
@@ -23,4 +21,5 @@ def health(session_handler: SessionHandler = Provide[Container.session_handler])
     """
     with session_handler.get_session() as session:
         session.execute(text("SELECT 1"))
+
     return "", http.HTTPStatus.NO_CONTENT
