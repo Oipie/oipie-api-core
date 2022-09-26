@@ -15,7 +15,7 @@ class UserModel(Models):
 
     __tablename__ = "users"
 
-    uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
+    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     nickname = Column(String, nullable=False, unique=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)

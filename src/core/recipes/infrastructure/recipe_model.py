@@ -15,7 +15,7 @@ class RecipeModel(Models):
 
     __tablename__ = "recipes"
 
-    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True, nullable=False)
+    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, nullable=False, primary_key=True)
     name = Column(String, nullable=False)
     favourite_amount = Column(Integer, default=0, nullable=False)
     preparation_time = Column(Integer, default=0, nullable=False)
