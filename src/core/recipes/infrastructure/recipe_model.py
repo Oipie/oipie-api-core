@@ -3,8 +3,8 @@ Recipe Database Model
 """
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Integer, cast
-from src.config.database import Models
+from sqlalchemy import Column, String, Integer
+from src.config.database_handler import Models
 from src.core.recipes.domain.recipe import Recipe
 
 

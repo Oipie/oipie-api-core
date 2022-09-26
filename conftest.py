@@ -3,68 +3,63 @@ File to create all needed fixtures to set up a Flask client
 """
 # pylint: disable=redefined-outer-name, unused-argument
 import pytest
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Connection
 from dependency_injector import providers
 from src.app import create_app
 from src.config.container import Container
-from src.config.database import TestingDatabase
+from src.config.database_handler import DatabaseHandler
 from src.config.db import database_url_connection
+from src.config.session_handler import SessionHandler
 from src.tests.utils.api_client import ApiClient
 
-database = TestingDatabase()
-engine = database.get_engine()
-Session = sessionmaker()
 container = Container()
 
 
 @pytest.fixture(scope="session")
-def database_instance():
-    """
-    Returns database fake instance
-    """
-    return database
-
-
-@pytest.fixture(scope="module")
 def connection():
     """
     Manages database connection
     """
-    connection = database.get_engine().connect()
-    yield connection
-    connection.close()
-
-
-@pytest.fixture(scope="function")
-def session():
-    """
-    Manages database session and rollsback executed queries
-    """
-    session = database.session()
-    session.begin_nested()
-    yield session
-    session.rollback()
-    session.close()
+    _engine = create_engine(url=database_url_connection({"database_name": "oipie_tests"}))
+    _connection = _engine.connect()
+    yield _connection
+    _connection.close()
 
 
 @pytest.fixture(scope="session", autouse=True)
-def initialise_db():
+def initialise_db(connection: Connection):
     """
     Migrates the database once before running tests
     """
-    database.create_database()
+    DatabaseHandler(connection).create_database()
+
+
+@pytest.fixture(autouse=True)
+def transaction(connection: Connection):
+    """
+    Wraps the test in a transaction
+    """
+    _transaction = connection.begin()
+    yield
+    _transaction.rollback()
 
 
 @pytest.fixture()
-def create_test_app(session):
+def session_handler(connection):
+    """
+    Creates a session handler
+    """
+    return SessionHandler(connection)
+
+
+@pytest.fixture()
+def create_test_app(connection: Connection):
     """
     This method returns an instance of an app for testing purposes
     """
-    database_test_config = {"database_name": "oipie_tests"}
-    database_test_uri = database_url_connection(database_test_config)
     app_factory = create_app()
-    app_factory.config.update({"TESTING": True, "SQLALCHEMY_DATABASE_URI": database_test_uri})
-    app_factory.container.db.override(providers.Singleton(TestingDatabase))
+    app_factory.container.connection.override(providers.Object(connection))
 
     # other setup can go here
 
@@ -82,19 +77,8 @@ def client(create_test_app):
 
 
 @pytest.fixture()
-def runner(create_test_app):
-    """
-    This methods takes an app fixture and returns a Flask cli client for testing purposes
-    """
-    return create_test_app.test_cli_runner()
-
-
-@pytest.fixture()
 def api_client(client):
     """
     Generates an API Client
     """
     return ApiClient(client)
-
-
-# pylint: enable=redefined-outer-name, unused-argument

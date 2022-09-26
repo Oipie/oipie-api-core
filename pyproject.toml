@@ -1,6 +1,18 @@
 [tool.black]
 line-length = 100
 
+[tool.poe.tasks]
+format = "black ."
+"format:check" = "black --check ."
+lint = "pylint --output-format colorized src/**/*.py"
+"lint:check" = "pylint src/**/*.py"
+"migration:up" = { "cmd" = "flask db upgrade", "envfile" = ".env" }
+"migration:down" = { "cmd" = "flask db downgrade", "envfile" = ".env" }
+"run:checks" = ["format:check", "lint:check"]
+"start:dev" = { "cmd" = "flask run", "envfile" = ".env", env = { "FLASK_DEBUG" = "0" } }
+"start:debug" = { "cmd" = "flask run", "envfile" = ".env", env = { "FLASK_DEBUG" = "1" } }
+test = "pytest"
+
 [tool.poetry]
 authors = [
   "Daniel Ramos <danielramos@acidtango.com>",
@@ -14,6 +26,7 @@ description = "API to list recipes"
 license = "MIT"
 
 [tool.poetry.dependencies]
+argon2-cffi = "21.3.0"
 dependency-injector = "4.40.0"
 Flask = "2.2.2"
 Flask-Migrate = "3.1.0"
@@ -23,9 +36,7 @@ psycopg2-binary = "2.9.3"
 python = "3.10.6"
 SQLAlchemy = "1.4.40"
 typing_extensions = "4.3.0"
-argon2-cffi = "^21.3.0"
-PyJWT = "^2.5.0"
-cryptography = "^38.0.1"
+PyJWT = "2.5.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "22.8.0"
@@ -33,6 +44,7 @@ pylint = "2.15.0"
 pylint-flask = "0.6.0"
 pylint-flask-sqlalchemy = "0.2.0"
 pytest = "7.1.2"
+python-dotenv = "0.21.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

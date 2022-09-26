@@ -2,6 +2,8 @@
 User repository SQLAlchemy implementation tests
 """
 import pytest
+from sqlalchemy.orm import Session
+from src.config.session_handler import SessionHandler
 from src.core.users.domain.user import User
 from src.core.users.infrastructure.user_repository_sqlalchemy import UsersRepositorySQLAlchemy
 from src.core.users.infrastructure.user_model import UserModel
@@ -11,16 +13,16 @@ from src.tests.fixtures.user_fixture import JOHN
 
 
 @pytest.fixture()
-def users_repository(database_instance, session):
+def users_repository(session_handler: SessionHandler) -> UsersRepositorySQLAlchemy:
     """
     Creates a UserRepositorySQLAlchemy instance with session
     """
 
-    return UsersRepositorySQLAlchemy(database_instance.session)
+    return UsersRepositorySQLAlchemy(session_handler)
 
 
 @pytest.fixture()
-def create_john_user(session):
+def create_john_user(session_handler: SessionHandler):
     """
     Creates user from JOHN fixture
     """
@@ -28,8 +30,9 @@ def create_john_user(session):
         uuid=JOHN["uuid"], nickname=JOHN["nickname"], email=JOHN["email"], password=JOHN["password"]
     )
 
-    session.add(john_model)
-    session.commit()
+    _session: Session = session_handler.get_session()
+    _session.add(john_model)
+    _session.flush()
 
 
 def test_find_by_email_not_finds_client(users_repository: UsersRepositorySQLAlchemy):
@@ -75,6 +78,7 @@ def test_find_by_nickname_finds_client(
     """
     nickname = JOHN["nickname"]
 
+    print(nickname)
     user = users_repository.find_by_nickname(nickname)
 
     assert user is not None
@@ -96,6 +100,3 @@ def test_create_creates_new_user(users_repository: UsersRepositorySQLAlchemy):
     assert user_created.nickname == JOHN["nickname"]
     assert user_created.email == JOHN["email"]
     assert user_created.password == JOHN["password"]
-
-
-# pylint: enable=redefined-outer-name, unused-argument
