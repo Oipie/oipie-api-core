@@ -28,5 +28,5 @@ def database_url_connection(override_config: Optional[dict] = None):
             f"postgresql://{database_config['host']}:{database_config['port']}"
             f"/{database_config['database_name']}"
             f"?user={database_config['username']}&password={database_config['password']}"
-        ).replace("postgres://", "postgresql://"),
-    )
+        ),
+    ).replace("postgres://", "postgresql://")
