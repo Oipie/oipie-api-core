@@ -2,7 +2,6 @@
 File to create all needed fixtures to set up a Flask client
 """
 # pylint: disable=redefined-outer-name, unused-argument
-from typing import Generator
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Connection
