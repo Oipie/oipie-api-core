@@ -54,7 +54,6 @@ def handle_domain_exception(error: DomainException):
 def handle_uknown_exception(*args):
     """Handle unknown errors and return them in a JSON format"""
 
-    print(*args)
     return make_response(
         jsonify(
             {
