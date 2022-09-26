@@ -18,7 +18,7 @@ container = Container()
 
 
 @pytest.fixture(scope="session")
-def connection() -> Generator[Connection, None, None]:
+def connection():
     """
     Manages database connection
     """
@@ -33,10 +33,7 @@ def initialise_db(connection: Connection):
     """
     Migrates the database once before running tests
     """
-    _database = DatabaseHandler(connection)
-    _database.create_database()
-    yield
-    _database.drop_database()
+    DatabaseHandler(connection).create_database()
 
 
 @pytest.fixture(autouse=True)
