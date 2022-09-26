@@ -1,4 +1,3 @@
-from __future__ import with_statement
 from src.config.container import Container
 
 import logging
@@ -10,7 +9,7 @@ from alembic import context
 
 container = Container()
 
-db_alpha = container.db()
+db_alpha = container.database_handler()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,8 +22,7 @@ logger = logging.getLogger("alembic.env")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+from src.core.users.infrastructure import user_model
 
 config.set_main_option(
     "sqlalchemy.url",
@@ -38,7 +36,7 @@ target_metadata = db_alpha.get_metadata()
 # ... etc.
 
 
-def run_migrations_offline():
+def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
     This configures the context with just a URL
@@ -57,7 +55,7 @@ def run_migrations_offline():
         context.run_migrations()
 
 
-def run_migrations_online():
+def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
 
     In this scenario we need to create an Engine

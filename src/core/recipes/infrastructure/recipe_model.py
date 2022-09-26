@@ -3,8 +3,8 @@ Recipe Database Model
 """
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Integer, cast
-from src.config.database import Models
+from sqlalchemy import Column, String, Integer
+from src.config.database_handler import Models
 from src.core.recipes.domain.recipe import Recipe
 
 
@@ -42,11 +42,11 @@ class RecipeModel(Models):
         """
         return Recipe(
             {
-                "id_": cast(self.id, Integer),
-                "uuid": cast(self.uuid, String),
-                "name": cast(self.name, String),
-                "favourite_amount": cast(self.favourite_amount, Integer),
-                "preparation_time": cast(self.preparation_time, Integer),
-                "cover": cast(self.cover, String),
+                "id_": self.id,
+                "uuid": self.uuid,
+                "name": self.name,
+                "favourite_amount": self.favourite_amount,
+                "preparation_time": self.preparation_time,
+                "cover": self.cover,
             }
         )
