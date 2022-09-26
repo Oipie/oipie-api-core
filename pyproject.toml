@@ -13,6 +13,10 @@ lint = "pylint --output-format colorized src/**/*.py"
 "start:debug" = { "cmd" = "flask run", "envfile" = ".env", env = { "FLASK_DEBUG" = "1" } }
 test = "pytest"
 
+  [tool.poe.tasks."migration:generate"]
+  cmd="flask db migrate"
+  args=[{ name = "message", options = ["-m", "--message"], required = false }]
+
 [tool.poetry]
 authors = [
   "Daniel Ramos <danielramos@acidtango.com>",
