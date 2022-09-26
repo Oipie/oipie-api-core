@@ -15,8 +15,7 @@ class RecipeModel(Models):
 
     __tablename__ = "recipes"
 
-    id = Column(Integer, primary_key=True)
-    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
+    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True, nullable=False)
     name = Column(String, nullable=False)
     favourite_amount = Column(Integer, default=0, nullable=False)
     preparation_time = Column(Integer, default=0, nullable=False)
@@ -28,7 +27,6 @@ class RecipeModel(Models):
         Transforms to Recipe model
         """
         return RecipeModel(
-            id=recipe.id_,
             uuid=recipe.uuid,
             name=recipe.uuid,
             favourite_amount=recipe.favourite_amount,
@@ -42,7 +40,6 @@ class RecipeModel(Models):
         """
         return Recipe(
             {
-                "id_": self.id,
                 "uuid": self.uuid,
                 "name": self.name,
                 "favourite_amount": self.favourite_amount,
