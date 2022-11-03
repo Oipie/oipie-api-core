@@ -3,7 +3,7 @@ User Database Model
 """
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String
 from src.config.database_handler import Models
 from src.core.users.domain.user import User
 
@@ -15,8 +15,7 @@ class UserModel(Models):
 
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
-    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
+    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     nickname = Column(String, nullable=False, unique=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
@@ -27,7 +26,6 @@ class UserModel(Models):
         Transforms to User model
         """
         return UserModel(
-            id=user.id_,
             uuid=user.uuid,
             nickname=user.nickname,
             email=user.email,
@@ -40,7 +38,6 @@ class UserModel(Models):
         """
         return User(
             {
-                "id_": self.id,
                 "uuid": self.uuid,
                 "nickname": self.nickname,
                 "email": self.email,

@@ -9,7 +9,6 @@ class RecipeAttributes(TypedDict):
     Dictionary that represents a recipe attributes
     """
 
-    id_: Optional[int]
     uuid: str
     name: str
     favourite_amount: int
@@ -23,7 +22,6 @@ class Recipe:
     """
 
     def __init__(self, recipe_attributes: RecipeAttributes) -> None:
-        self.id_ = recipe_attributes.get("id_")
         self.uuid = recipe_attributes.get("uuid")
         self.name = recipe_attributes.get("name")
         self.favourite_amount = recipe_attributes.get("favourite_amount")
@@ -35,7 +33,6 @@ class Recipe:
         This method returns a recipe parsed to dict object
         """
         recipe_serialized: RecipeAttributes = {
-            "id_": self.id_,
             "uuid": self.uuid,
             "name": self.name,
             "favourite_amount": self.favourite_amount,
