@@ -28,7 +28,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 argon2-cffi = "21.3.0"
 dependency-injector = "4.40.0"
-Flask = "2.2.2"
+Flask = "2.3.2"
 Flask-Migrate = "3.1.0"
 Flask-SQLAlchemy = "2.5.1"
 gunicorn = "20.1.0"
