@@ -27,23 +27,23 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 argon2-cffi = "21.3.0"
-dependency-injector = "4.40.0"
-Flask = "2.2.5"
+dependency-injector = "4.41.0"
+Flask = "2.3.3"
 Flask-Migrate = "3.1.0"
 Flask-SQLAlchemy = "2.5.1"
 gunicorn = "20.1.0"
 psycopg2-binary = "2.9.5"
-python = "3.10.6"
-PyJWT = "2.5.0"
+python = "3.12.1"
+PyJWT = "2.8.0"
 SQLAlchemy = "1.4.40"
-typing_extensions = "4.3.0"
+typing_extensions = "4.9.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "22.8.0"
-pylint = "2.15.5"
+black = "22.12.0"
+pylint = "2.17.7"
 pylint-flask = "0.6.0"
 pylint-flask-sqlalchemy = "0.2.0"
-pytest = "7.1.2"
+pytest = "7.4.3"
 python-dotenv = "0.21.0"
 
 [build-system]
